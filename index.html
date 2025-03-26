@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hakan Lök</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Masaüstü Alanı -->
+  <div class="container-fluid desktop">
+    <div class="row">
+      <div class="col-12 d-flex flex-wrap">
+        <div class="icon m-2" ondblclick="openWindow('cv', 'CV.pdf')">
+          <div class="icon-image">
+            <img src="icons/cv.png" class="img-fluid" alt="CV">
+          </div>
+          <div class="icon-label text-center">CV.pdf</div>
+        </div>
+
+        <div class="icon m-2" ondblclick="openWindow('github', 'github.html')">
+          <div class="icon-image">
+            <img src="icons/github-icon.png" class="img-fluid" alt="GitHub">
+          </div>
+          <div class="icon-label text-center">GitHub</div>
+        </div>
+
+        <div class="icon m-2" ondblclick="openWindow('linkedin', 'linkedin.html')">
+          <div class="icon-image">
+            <img src="icons/linkedin-icon.png" class="img-fluid" alt="LinkedIn">
+          </div>
+          <div class="icon-label text-center">LinkedIn</div>
+        </div>
+
+        <div class="icon m-2" ondblclick="openWindow('Trash', 'Trash.html')">
+          <div class="icon-image">
+            <img src="icons/Trash.png" class="img-fluid" alt="Trash">
+          </div>
+          <div class="icon-label text-center">Çöp kutusu</div>
+        </div>
+
+        <div class="icon m-2" ondblclick="openWindow('blackjack', 'blackjack-master/blackjack.html')">
+          <div class="icon-image">
+            <img src="icons/blackjack.png" class="img-fluid" alt="LinkedIn">
+          </div>
+          <div class="icon-label text-center">Blackjack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="windows"></div>
+
+  <!-- Görev Çubuğu -->
+  <div class="taskbar fixed-bottom">
+    <div class="taskbar-left">
+      <div id="start-button" class="start-button">☰</div>
+      <div id="taskbar-items" class="taskbar-items"></div>
+    </div>
+    <div class="clock" id="clock"></div>
+  </div>
+
+  <!-- Başlat Menüsü -->
+  <div id="start-menu" class="start-menu hidden">
+    <div class="start-menu-item" onclick="openWindow('cv', 'CV.pdf')">
+      CV Viewer
+    </div>
+    <div class="start-menu-item" onclick="openWindow('github', 'github.html')">
+      GitHub
+    </div>
+    <div class="start-menu-item" onclick="openWindow('linkedin', 'linkedin.html')">
+      LinkedIn
+    </div>
+    <div class="start-menu-item" onclick="openWindow()">
+      Trash
+    </div>
+    <div class="start-menu-item" onclick="openWindow('blackjack', 'blackjack-master/blackjack.html')">
+      Blackjack
+    </div>
+    <div class="start-menu-item" onclick="location.reload();">
+      Restart
+    </div>
+   
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
