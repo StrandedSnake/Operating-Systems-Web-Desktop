@@ -226,7 +226,7 @@ function openWindow(id, filePath) {
   switch (id) {
     case "cv":
       title = "CV.pdf";
-      content = `<embed src=https://github.com/StrandedSnake/Operating-Systems-Web-Desktop/blob/main/cv.pdf' type="application/pdf" width="100%" height="100%">`;
+      content = `<embed src="https://github.com/StrandedSnake/Operating-Systems-Web-Desktop/blob/main/cv.pdf" type="application/pdf" width="100%" height="100%">`;
       break;
     case "github":
       title = "GitHub";
