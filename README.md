@@ -25,7 +25,7 @@ This project was inspired by Linux desktop environments. Additionally, some publ
 - [https://github.com/jacquelynmarcella/blackjack - Used and upgraded for blackjack.
 
 ## 📜 License
-Just buy me a coffee ;)
+[Just buy me a coffee ;)](https://buymeacoffee.com/hakanlok)
 
 ## 📬 Contact
 For any questions or collaborations, feel free to reach out:
