@@ -1,6 +1,10 @@
 Operating Systems Desktop Simulation
 This project is a **desktop environment simulation** built using **HTML, CSS (Bootstrap), and JavaScript**. It mimics an operating system's desktop, allowing users to interact with icons, open windows, and navigate through a taskbar.
 
+## 🌐 Demo  
+You can check out the live demo here:  
+[Operating Systems Web Desktop](https://strandedsnake.github.io/Operating-Systems-Web-Desktop/)
+
 ## 🚀 Features
 
 ✅ **Desktop Icons** - Open your CV, LinkedIn, and GitHub directly from the interface.
