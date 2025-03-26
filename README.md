@@ -14,7 +14,8 @@ This project is a **desktop environment simulation** built using **HTML, CSS (Bo
 
 1. Clone the repository:
 
-  ```git clone https://github.com/StrandedSnake/Operating-Systems-web-desktop
+  ```bash
+git clone https://github.com/StrandedSnake/Operating-Systems-web-desktop
   ```
 2. Open `index.html` in your browser.
 
