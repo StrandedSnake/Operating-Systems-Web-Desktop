@@ -14,13 +14,13 @@ This project is a **desktop environment simulation** built using **HTML, CSS (Bo
 
 1. Clone the repository:
 
-  ``` git clone https://github.com/StrandedSnake/Operating-Systems-web-desktop
-   ```
+  ```git clone https://github.com/StrandedSnake/Operating-Systems-web-desktop
+  
 2. Open `index.html` in your browser.
 
 ## 🎓 Credits
 
-This project was inspired by Linux desktop environments. Additionally, some public open-source code was used and credited accordingly:
+This project was inspired by desktop environments. Additionally, some public open-source code was used and credited accordingly:
 
 - [https://github.com/jacquelynmarcella/blackjack - Used and upgraded for blackjack.
 
