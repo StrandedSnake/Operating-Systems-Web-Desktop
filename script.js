@@ -226,11 +226,11 @@ function openWindow(id, filePath) {
   switch (id) {
     case "cv":
       title = "CV.pdf";
-      content = `<embed src="${filePath}" type="application/pdf" width="100%" height="100%">`;
+      content = `<embed src="/${filePath}" type="application/pdf" width="100%" height="100%">`;
       break;
     case "github":
       title = "GitHub";
-      content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
+      content = `<iframe src="/${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
       break;
     case "linkedin":
       title = "LinkedIn";
