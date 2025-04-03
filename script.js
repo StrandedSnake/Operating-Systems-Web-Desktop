@@ -237,7 +237,7 @@ function openWindow(id, filePath) {
       content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
       break;
     case "Trash":
-      title = "Çöp Kutusu";
+      title = "Trash";
       content = `
         <div style="color: #fff;">
           <div class="d-flex gap-3 mt-2">
@@ -263,6 +263,10 @@ function openWindow(id, filePath) {
         title = "blackjack";
         content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
         break;
+        case "Chess":
+          title = "Chess";
+          content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
+          break;
     default:
       title = "Yeni Pencere";
       content = `<div>Dosya bulunamadı</div>`;
