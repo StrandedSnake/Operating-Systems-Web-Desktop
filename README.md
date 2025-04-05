@@ -7,13 +7,13 @@ You can check out the live demo here:
 
 ## 🚀 Features
 
-✅ **Desktop Icons** - Open your CV, LinkedIn, and GitHub directly from the interface.
-✅ **Draggable Windows** - Each opened application behaves like a windowed program.
-✅ **Taskbar & Start Menu** - A dynamic taskbar to manage open windows.
-✅ **Bootstrap-Powered UI** - Responsive and modern styling with Bootstrap.
-✅ **Blackjack** -You can pay it instead of child support..
-✅ **Music App** -A basic music app.
-✅ **Trash Folder** -Maybe you can find something you do not expect.
+✅ **Desktop Icons** - Open your CV, LinkedIn, and GitHub directly from the interface.  
+✅ **Draggable Windows** - Each opened application behaves like a windowed program.  
+✅ **Taskbar & Start Menu** - A dynamic taskbar to manage open windows.  
+✅ **Bootstrap-Powered UI** - Responsive and modern styling with Bootstrap.  
+✅ **Blackjack** -You can pay it instead of child support..  
+✅ **Music App** -A basic music app.  
+✅ **Trash Folder** -Maybe you can find something you do not expect.  
 
 ## 🛠️ Installation & Usage
 
