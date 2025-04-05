@@ -30,7 +30,7 @@ This project was inspired by desktop environments. Additionally, some public ope
 - [https://github.com/jacquelynmarcella/blackjack - Used and upgraded for blackjack.
 
 ## 📜 License
-[Just buy me a coffee ;)](https://buymeacoffee.com/hakanlok)
+MIT License
 
 ## 📬 Contact
 For any questions or collaborations, feel free to reach out:
