@@ -146,7 +146,7 @@ class WindowManager {
       if (win.style.display === "none") {
         this.restoreWindow(windowId);
       } else {
-        this.bringToFront(windowId);
+        this.minimizeWindow(windowId);
       }
     });
 
