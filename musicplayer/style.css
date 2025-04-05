@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,7 +17,6 @@ body {
   align-items: center;
   height: 100vh;
 }
-
 .player-container {
   position: relative;
   background-color: #494949;
@@ -54,6 +54,7 @@ body {
   color: #b3b3b3;
 }
 
+
 .player-controls {
   display: flex;
   justify-content: space-around;
@@ -62,17 +63,23 @@ body {
   margin-top: 10px;
 }
 
-.player-controls img {
-  width: 40px;
-  height: 40px;
+.player-controls button {
+  background-color: transparent;
+  border: none;
   cursor: pointer;
   transition: transform 0.2s;
-  margin: 0 10px;
+  padding: 5px;
 }
 
-.player-controls img:hover {
+.player-controls button img {
+  width: 30px; 
+  height: 30px;
+}
+
+.player-controls button:hover {
   transform: scale(1.1);
 }
+
 
 .progress-container {
   width: 100%;
@@ -80,8 +87,8 @@ body {
   background-color: #333;
   border-radius: 5px;
   margin-top: 20px;
-  position: relative;
   cursor: pointer;
+  position: relative;
 }
 
 .progress-bar {
@@ -92,18 +99,6 @@ body {
   transition: width 0.2s;
 }
 
-/* Sürüklenebilir yuvarlak tutamaç */
-.progress-handle {
-  width: 15px;
-  height: 15px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-}
 
 .time-display {
   width: 100%;
@@ -113,6 +108,7 @@ body {
   margin-top: 5px;
   color: #b3b3b3;
 }
+
 
 .volume-container {
   display: flex;
@@ -145,9 +141,10 @@ body {
   max-height: 150px;
   overflow-y: auto;
   width: 98%;
-  scrollbar-width: thin;
-  scrollbar-color: #000000 #282828;
+  scrollbar-width: thin; 
+  scrollbar-color: #000000 #282828; 
 }
+
 
 .playlist::-webkit-scrollbar {
   width: 6px;
@@ -164,11 +161,11 @@ body {
 }
 
 .playlist::-webkit-scrollbar-button {
-  display: none;
+  display: none; /* Scrollbar oklarını kaldırır */
 }
 
 .playlist::-webkit-scrollbar-corner {
-  background: transparent;
+  background: transparent; 
 }
 
 .playlist-item {
@@ -190,18 +187,28 @@ body {
   color: #000000;
 }
 
+.player-controls img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 0 10px;
+}
+
+.player-controls img:hover {
+  transform: scale(1.1);
+}
 #muteBtn {
   width: 24px;
   height: 24px;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right:5px;
 }
-
 .open-window-button {
   position: absolute;
   bottom: 7px;
   right: -3px;
-  width: 31px;
+  width: 31px; 
   height: 31px;
   cursor: pointer;
   transition: transform 0.2s;

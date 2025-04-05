@@ -102,6 +102,7 @@ let isRepeatOn = false;
 window.addEventListener('load', () => {
   renderPlaylist();
   playTrack(0);
+  audio.pause();
   playPauseBtn.src = "images/play.png";
 });
 
