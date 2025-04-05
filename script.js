@@ -33,7 +33,7 @@ class WindowManager {
 
     // Başlangıç boyutları
     windowDiv.style.width = "800px";
-    windowDiv.style.height = "700px";
+    windowDiv.style.height = "850px";
     windowDiv.style.left = `calc(50% - 300px)`;
     windowDiv.style.top = `calc(30% - 200px)`;
 
@@ -263,10 +263,10 @@ function openWindow(id, filePath) {
         title = "blackjack";
         content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
         break;
-        case "Chess":
-          title = "Chess";
-          content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
-          break;
+        case "musicplayer":
+        title = "Music Player";
+        content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
+        break;
     default:
       title = "Yeni Pencere";
       content = `<div>Dosya bulunamadı</div>`;

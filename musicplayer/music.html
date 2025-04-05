@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebMusic</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="player-container">
+    <!-- Albüm kapağı -->
+    <div class="album-art" id="albumArt"></div>
+    
+    <!-- Şarkı bilgileri -->
+    <div class="track-info">
+      <h2 id="currentTrack">currentTrack</h2>
+      <p id="artistInfo">artistInfo</p>
+    </div>
+
+    <!-- Oynatma kontrol butonları: shuffle, prev, play/pause, next, repeat -->
+    <div class="player-controls">
+      <img src="images/shuffle.png" alt="Shuffle" id="shuffleBtn">
+      <img src="images/prev.png" alt="Previous" id="prevBtn">
+      <img src="images/play.png" alt="Play/Pause" id="playPauseBtn">
+      <img src="images/next.png" alt="Next" id="nextBtn">
+      <img src="images/repeat.png" alt="Repeat" id="repeatBtn">
+    </div>
+
+    <!-- İlerleme çubuğu (sürüklenebilir tutamaç dahil) -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="progress-handle" id="progressHandle"></div>
+    </div>
+
+    <!-- Süre gösterimi -->
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <!-- Ses kontrolü -->
+    <div class="volume-container">
+      <img src="images/volume.png" alt="Mute" id="muteBtn">
+      <span class="volume-label"></span>
+      <div class="volume-bar" id="volumeBar">
+        <div class="volume-level" id="volumeLevel"></div>
+      </div>
+    </div>
+
+    <!-- Playlist -->
+    <div class="playlist" id="playlist"></div>
+    <img src="images/new-window.png" alt="Yeni Pencere" class="open-window-button" id="openWindowBtn">
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
