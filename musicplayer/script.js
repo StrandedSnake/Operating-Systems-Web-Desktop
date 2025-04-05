@@ -102,7 +102,7 @@ let isRepeatOn = false;
 window.addEventListener('load', () => {
   renderPlaylist();
   playTrack(0);
-  playPauseBtn.src = "images/pause.png";
+  playPauseBtn.src = "images/play.png";
 });
 
 // Kontrol tuşları
@@ -262,5 +262,6 @@ openWindowBtn.addEventListener('click', () => {
   window.open(
     'https://open.spotify.com/playlist/66PbY1xxH1C4aaIoQgi3aL?si=57b49d6cb7d7471a',  
     '_blank',
+    'width=600,height=400'
   );
 });
