@@ -367,6 +367,7 @@ function openWindow(id, filePath) {
       .then(ipData => {
         const content = `<div style="color: #08cad8; font-family: monospace; padding:20px;">
           <p>Your IP: ${ipData.ip}</p>
+          <img src="icons/meme.jpg" alt="Meme" style="max-width:85%;"/>
         </div>`;
         desktop.createWindow('Gotcha!', content);
         // Terminal pencere şakası
