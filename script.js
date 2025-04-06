@@ -26,74 +26,66 @@ class WindowManager {
 
   createWindow(title, content) {
     const id = `window_${Date.now()}`;
-    const windowDiv = document.createElement("div");
-    windowDiv.className = "window";
-    windowDiv.id = id;
-    windowDiv.style.zIndex = this.zIndex++;
+    const win = document.createElement("div");
+    win.className = "window";
+    win.id = id;
+    win.style.zIndex = this.zIndex++;
 
     // Başlangıç boyutları
-    windowDiv.style.width = "800px";
-    windowDiv.style.height = "850px";
-    windowDiv.style.left = `calc(50% - 300px)`;
-    windowDiv.style.top = `calc(30% - 200px)`;
+    win.style.width = "800px";
+    win.style.height = "700px";
+    win.style.left = `calc(50% - 300px)`;
+    win.style.top = `calc(30% - 200px)`;
 
-    windowDiv.innerHTML = `
-      <div class="window-header" onmousedown="desktop.bringToFront('${id}')">
+    win.innerHTML = `
+      <div class="window-header">
         <span>${title}</span>
         <div>
-          <button onclick="desktop.minimizeWindow('${id}')">🗕</button>
-          <button onclick="desktop.toggleFullscreen('${id}')">🗖</button>
-          <button onclick="desktop.closeWindow('${id}')">🗙</button>
+          <button class="minimize">🗕</button>
+          <button class="fullscreen">🗖</button>
+          <button class="close">🗙</button>
         </div>
       </div>
       <div class="window-content">${content}</div>
     `;
 
-    document.getElementById("windows").appendChild(windowDiv);
-    this.windows.push(windowDiv);
+    document.getElementById("windows").appendChild(win);
+    this.windows.push(win);
     this.addTaskbarItem(id, title);
 
-    // Pencereyi sürüklenebilir ve yeniden boyutlandırılabilir hale getir
-    this.makeDraggable(windowDiv);
-    this.makeResizable(windowDiv);
+    // Olayları bağla
+    this.makeDraggable(win);
+    this.makeResizable(win);
+    win.querySelector('.minimize').addEventListener('click', () => this.minimizeWindow(id));
+    win.querySelector('.close').addEventListener('click', () => this.closeWindow(id));
+    win.querySelector('.fullscreen').addEventListener('click', () => this.toggleFullscreen(id));
 
     return id;
   }
 
   bringToFront(id) {
     const win = document.getElementById(id);
-    if (win) {
-      win.style.zIndex = ++this.zIndex;
-      // Tüm taskbar item'lardan "active" sınıfını kaldırıyoruz.
-      this.taskbarItems.forEach(item => item.classList.remove("active"));
-      // Şu anki pencerenin taskbar item'ını aktif yapıyoruz.
-      this.updateTaskbarItem(id, false);
-    }
+    if (!win) return;
+    this.zIndex++;
+    if (this.zIndex > 10000) this.resetZIndex();
+    win.style.zIndex = this.zIndex;
+    // Taskbar güncelle
+    this.taskbarItems.forEach(item => item.classList.remove('active'));
+    this.taskbarItems.get(id).classList.add('active');
   }
 
-  updateTaskbarItem(windowId, isMinimized) {
-    const taskbarItem = this.taskbarItems.get(windowId);
-    if (taskbarItem) {
-      if (!isMinimized) {
-        taskbarItem.classList.add("active");
-      } else {
-        taskbarItem.classList.remove("active");
-      }
-    }
+  resetZIndex() {
+    this.zIndex = 1000;
+    this.windows.forEach(w => w.style.zIndex = this.zIndex++);
   }
-
-
 
   closeWindow(id) {
     const win = document.getElementById(id);
     if (win) {
       win.remove();
-      this.windows = this.windows.filter((w) => w.id !== id);
-
-      const taskbarItem = this.taskbarItems.get(id);
-      if (taskbarItem) {
-        taskbarItem.remove();
-      }
+      this.windows = this.windows.filter(w => w.id !== id);
+      const item = this.taskbarItems.get(id);
+      if (item) item.remove();
       this.taskbarItems.delete(id);
     }
   }
@@ -101,15 +93,15 @@ class WindowManager {
   minimizeWindow(id) {
     const win = document.getElementById(id);
     if (win) {
-      win.style.display = "none";
-      this.updateTaskbarItem(id, true);
+      win.style.display = 'none';
+      this.taskbarItems.get(id).classList.remove('active');
     }
   }
 
   restoreWindow(id) {
     const win = document.getElementById(id);
     if (win) {
-      win.style.display = "flex";
+      win.style.display = 'flex';
       this.bringToFront(id);
     }
   }
@@ -117,160 +109,153 @@ class WindowManager {
   toggleFullscreen(id) {
     const win = document.getElementById(id);
     if (!win) return;
-  
-    win.classList.toggle("fullscreen");
-  
-    if (win.classList.contains("fullscreen")) {
-      win.style.position = "fixed";
-      win.style.width = "100vw";
-      win.style.height = "100vh";
-      win.style.left = "0";
-      win.style.top = "0";
+
+    if (!win.classList.contains('fullscreen')) {
+      // Önceki boyut ve konumu kaydet
+      win.dataset.prevWidth = win.style.width;
+      win.dataset.prevHeight = win.style.height;
+      win.dataset.prevLeft = win.style.left;
+      win.dataset.prevTop = win.style.top;
+
+      win.classList.add('fullscreen');
+      win.style.position = 'fixed';
+      win.style.left = '0';
+      win.style.top = '0';
+      win.style.width = '100vw';
+      win.style.height = '100vh';
     } else {
-      win.style.position = "absolute";
-      win.style.width = "800px";
-      win.style.height = "700px";
-      win.style.left = `calc(50% - 300px)`;
-      win.style.top = `calc(30% - 200px)`;
+      // Öncekileri geri yükle
+      win.classList.remove('fullscreen');
+      win.style.position = 'absolute';
+      win.style.width = win.dataset.prevWidth;
+      win.style.height = win.dataset.prevHeight;
+      win.style.left = win.dataset.prevLeft;
+      win.style.top = win.dataset.prevTop;
+
+      delete win.dataset.prevWidth;
+      delete win.dataset.prevHeight;
+      delete win.dataset.prevLeft;
+      delete win.dataset.prevTop;
     }
   }
 
-  addTaskbarItem(windowId, title) {
-    const taskbarItem = document.createElement("div");
-    taskbarItem.className = "taskbar-item";
-    taskbarItem.textContent = title;
-    taskbarItem.dataset.windowId = windowId;
-
-    taskbarItem.addEventListener("click", () => {
-      const win = document.getElementById(windowId);
-      if (win.style.display === "none") {
-        this.restoreWindow(windowId);
-      } else {
-        this.minimizeWindow(windowId);
-      }
+  addTaskbarItem(id, title) {
+    const item = document.createElement('div');
+    item.className = 'taskbar-item';
+    item.textContent = title;
+    item.dataset.windowId = id;
+    item.addEventListener('click', () => {
+      const win = document.getElementById(id);
+      if (win.style.display === 'none') this.restoreWindow(id);
+      else this.minimizeWindow(id);
     });
-
-    document.getElementById("taskbar-items").appendChild(taskbarItem);
-    this.taskbarItems.set(windowId, taskbarItem);
-  }
-
-  updateTaskbarItem(windowId, isMinimized) {
-    const taskbarItem = this.taskbarItems.get(windowId);
-    if (taskbarItem) {
-      taskbarItem.classList.toggle("active", !isMinimized);
-    }
+    document.getElementById('taskbar-items').appendChild(item);
+    this.taskbarItems.set(id, item);
   }
 
   makeDraggable(win) {
-    const header = win.querySelector(".window-header");
-    let offsetX, offsetY, isDragging = false;
+    const header = win.querySelector('.window-header');
+    let offsetX, offsetY;
+    const onMouseMove = (e) => {
+      win.style.left = `${e.clientX - offsetX}px`;
+      win.style.top = `${e.clientY - offsetY}px`;
+    };
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
 
-    header.addEventListener("mousedown", (e) => {
-      isDragging = true;
+    header.addEventListener('mousedown', (e) => {
+      this.bringToFront(win.id);
       offsetX = e.clientX - win.offsetLeft;
       offsetY = e.clientY - win.offsetTop;
-      this.bringToFront(win.id);
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (isDragging) {
-        win.style.left = `${e.clientX - offsetX}px`;
-        win.style.top = `${e.clientY - offsetY}px`;
-      }
-    });
-
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
   }
 
   makeResizable(win) {
-    let isResizing = false;
-    let startX, startY, startWidth, startHeight;
+    let startX, startY, startW, startH;
+    const onMouseMove = (e) => {
+      const newW = Math.max(300, startW + (e.clientX - startX));
+      const newH = Math.max(200, startH + (e.clientY - startY));
+      win.style.width = `${newW}px`;
+      win.style.height = `${newH}px`;
+    };
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
 
-    win.addEventListener("mousedown", (e) => {
+    win.addEventListener('mousedown', (e) => {
       const rect = win.getBoundingClientRect();
-      if (
-        e.clientX >= rect.right - 15 &&
-        e.clientY >= rect.bottom - 15
-      ) {
-        isResizing = true;
+      if (e.clientX >= rect.right - 15 && e.clientY >= rect.bottom - 15) {
         startX = e.clientX;
         startY = e.clientY;
-        startWidth = parseInt(win.style.width);
-        startHeight = parseInt(win.style.height);
+        startW = rect.width;
+        startH = rect.height;
         e.preventDefault();
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
       }
     });
+  }
 
-    document.addEventListener("mousemove", (e) => {
-      if (!isResizing) return;
-      const width = startWidth + (e.clientX - startX);
-      const height = startHeight + (e.clientY - startY);
-      win.style.width = `${Math.max(300, width)}px`;
-      win.style.height = `${Math.max(200, height)}px`;
-    });
+  // İçerik üreticiler
+  getContent(id, filePath) {
+    switch (id) {
+      case 'cv': return this.getPDFContent(filePath);
+      case 'github':
+      case 'linkedin':
+      case 'blackjack':
+      case 'musicplayer': return this.getIframeContent(filePath);
+      case 'Trash': return this.getTrashContent();
+      default: return '<div>Dosya bulunamadı</div>';
+    }
+  }
 
-    document.addEventListener("mouseup", () => {
-      isResizing = false;
-    });
+  getPDFContent(path) {
+    return `<embed src="${path}" type="application/pdf" width="100%" height="100%">`;
+  }
+
+  getIframeContent(path) {
+    return `<iframe src="${path}" frameborder="0" width="100%" height="100%"></iframe>`;
+  }
+
+  getTrashContent() {
+    return `
+      <div style="color: #fff;">
+        <div class="d-flex gap-3 mt-2">
+          <div class="text-center" style="cursor:pointer;" onclick="openWindow('Do not Click this!')">
+            <img src="icons/top-secret.png" alt="File1" width="48" height="48"/>
+            <div>Do not Click this!</div>
+          </div>
+          <div class="text-center" style="cursor:pointer;" onclick="openWindow('youtube')">
+            <img src="icons/youtube.png" alt="File2" width="48" height="48"/>
+            <div>youtube</div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 }
 
 const desktop = new WindowManager();
 
 function openWindow(id, filePath) {
-  let title = "";
-  let content = "";
-
-  switch (id) {
-    case "cv":
-      title = "CV.pdf";
-      content = `<embed src="${filePath}" type="application/pdf" width="100%" height="100%">`;
-      break;
-    case "github":
-      title = "GitHub";
-      content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
-      break;
-    case "linkedin":
-      title = "LinkedIn";
-      content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
-      break;
-    case "Trash":
-      title = "Trash";
-      content = `
-        <div style="color: #fff;">
-          <div class="d-flex gap-3 mt-2">
-            <div class="text-center" style="cursor:pointer;" onclick="openWindow('Do not Click this!')">
-              <img src="icons/top-secret.png" alt="File1" width="48" height="48"/>
-              <div>Do not Click this!</div>
-            </div>
-            <div class="text-center" style="cursor:pointer;" onclick="openWindow('youtube')">
-              <img src="icons/youtube.png" alt="File2" width="48" height="48"/>
-              <div>youtube</div>
-            </div>
-          </div>
-        </div>
-      `;
-      break;
-    case "Do not Click this!":
-      window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
-      return;
-    case "youtube":
-      window.open("https://youtu.be/eSnHZnnXjjA?list=RDeSnHZnnXjjA", "_blank");
-      return;
-      case "blackjack":
-        title = "blackjack";
-        content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
-        break;
-        case "musicplayer":
-        title = "Music Player";
-        content = `<iframe src="${filePath}" frameborder="0" width="100%" height="100%"></iframe>`;
-        break;
-    default:
-      title = "Yeni Pencere";
-      content = `<div>Dosya bulunamadı</div>`;
-  }
-
+  const titleMap = {
+    cv: 'CV.pdf',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
+    blackjack: 'blackjack',
+    musicplayer: 'Music Player',
+    Trash: 'Trash'
+  };
+  const title = titleMap[id] || 'Yeni Pencere';
+  const content = desktop.getContent(id, filePath);
   desktop.createWindow(title, content);
+
+  // Özel dış bağlantılar
+  if (id === 'Do not Click this!') return window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+  if (id === 'youtube') return window.open('https://youtu.be/eSnHZnnXjjA?list=RDeSnHZnnXjjA', '_blank');
 }
