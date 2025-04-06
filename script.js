@@ -35,7 +35,7 @@ class WindowManager {
     if (title === 'Terminal') {
       win.style.width = "600px";
       win.style.height = "400px";
-      win.style.left = `calc(50% - 1300px)`;
+      win.style.left = `calc(50% - 1100px)`;
       win.style.top = `calc(50% - 850px)`;
     } else {
       win.style.width = "800px";
