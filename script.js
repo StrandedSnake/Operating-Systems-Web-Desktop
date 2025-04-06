@@ -279,6 +279,11 @@ $ dir /s
 
 04/06/2025  09:30 AM    <DIR>          .
 04/06/2025  09:30 AM    <DIR>          ..
+04/06/2025  09:30 AM            89,240 cv.pdf
+04/06/2025  09:30 AM            26,662 Github.exe
+04/06/2025  09:30 AM            16,662 Linkedin.exe
+04/06/2025  09:30 AM         5,314,159 Blackjack.exe
+04/06/2025  09:30 AM        25,314,152 Music Player.exe
 04/06/2025  09:30 AM           133,337 important_file.txt
 04/06/2025  09:30 AM            42,069 secrets.txt
 04/06/2025  09:30 AM           256,000 report.docx
@@ -289,7 +294,7 @@ $ dir /s
 04/06/2025  09:31 AM         5,000,001 trojan_horse.exe
 04/06/2025  09:31 AM           777,777 system32_backup.zip
 04/06/2025  09:31 AM           543,210 omg_this_is_real.png
-04/06/2025  09:31 AM         8,008,008 boobs.jpg
+04/06/2025  09:31 AM         8,008,008 say gex.jpg
 04/06/2025  09:31 AM         2,222,222 funny_meme.mp4
 04/06/2025  09:31 AM           888,888 virus_scanner.log
 04/06/2025  09:31 AM           123,456 not_a_virus.bat
