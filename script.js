@@ -31,11 +31,18 @@ class WindowManager {
     win.id = id;
     win.style.zIndex = this.zIndex++;
 
-    // Başlangıç boyutları
-    win.style.width = "800px";
-    win.style.height = "700px";
-    win.style.left = `calc(50% - 400px)`;
-    win.style.top = `calc(30% - 350px)`;
+    // Terminal'e özel boyutlandırma, diğerleri için varsayılan boyutlar
+    if (title === 'Terminal') {
+      win.style.width = "600px";
+      win.style.height = "400px";
+      win.style.left = `calc(50% - 1300px)`;
+      win.style.top = `calc(50% - 850px)`;
+    } else {
+      win.style.width = "800px";
+      win.style.height = "700px";
+      win.style.left = `calc(50% - 400px)`;
+      win.style.top = `calc(30% - 350px)`;
+    }
 
     win.innerHTML = `
       <div class="window-header">
@@ -238,86 +245,140 @@ class WindowManager {
 
 const desktop = new WindowManager();
 
-// Dinamik olarak "Prank" ikonu ekle
+// Dinamik olarak "Network" ikonu ekle
 window.addEventListener('DOMContentLoaded', () => {
   const desktopArea = document.querySelector('.desktop .row .col-12');
   if (desktopArea) {
-    const prankIcon = document.createElement('div');
-    prankIcon.className = 'icon m-2';
-    prankIcon.innerHTML = `
+    const NetworkIcon = document.createElement('div');
+    NetworkIcon.className = 'icon m-2';
+    NetworkIcon.innerHTML = `
       <div class="icon-image">
-        <img src="icons/prank.png" class="img-fluid" alt="Prank">
+        <img src="icons/wifi-signal.png" class="img-fluid" alt="">
       </div>
-      <div class="icon-label text-center">Prank</div>
+      <div class="icon-label text-center">Network</div>
     `;
-    prankIcon.addEventListener('dblclick', () => openWindow('prank'));
-    desktopArea.appendChild(prankIcon);
+    NetworkIcon.addEventListener('dblclick', () => openWindow('Network'));
+    desktopArea.appendChild(NetworkIcon);
   }
 });
 
-// Rickroll animasyonu
+// Rickroll animasyonu ve sahte "dir /s" çıktısı
 function animateRickRoll(termWinId) {
-  const frames = [
-    "    Never gonna give you up    ",
-    "    Never gonna let you down  ",
-    "    Never gonna run around   ",
-    "    and desert you            ",
-    "    Never gonna make you cry  ",
-    "    Never gonna say goodbye  ",
-    "    Never gonna tell a lie    ",
-    "    and hurt you             "
-  ];
-
-
-  
-  let idx = 0;
   const win = document.getElementById(termWinId);
   const contentDiv = win.querySelector('.window-content');
-  contentDiv.innerHTML = `<pre style="color:#0f0; font-family: monospace;">$ curl ascii.live/rick</pre>`;
-  const interval = setInterval(() => {
-    contentDiv.innerHTML = `<pre style="color:#0f0; font-family: monospace;">$ curl ascii.live/rick\n${frames[idx]}</pre>`;
-    idx = (idx + 1) % frames.length;
-  }, 500);
-  // 10 saniye sonra animasyonu durdur ve pencereyi kapat
+  const style = 'color:#0f0; font-family: monospace; white-space: pre-wrap;';
+  
+  contentDiv.style.overflow = 'hidden';
+  // Önce zengin "dir /s" çıktısını gösteriyoruz:
+  const fakeDirOutput = `
+$ dir /s
+ Volume in drive C has no label.
+ Volume Serial Number is 1234-ABCD
+
+ Directory of C:\\Users\\Gotcha\\Desktop
+
+04/06/2025  09:30 AM    <DIR>          .
+04/06/2025  09:30 AM    <DIR>          ..
+04/06/2025  09:30 AM           133,337 important_file.txt
+04/06/2025  09:30 AM            42,069 secrets.txt
+04/06/2025  09:30 AM           256,000 report.docx
+04/06/2025  09:31 AM           314,159 password_list.docx
+04/06/2025  09:31 AM            69,420 love_letter.txt
+04/06/2025  09:31 AM         1,337,000 bitcoin_wallet.dat
+04/06/2025  09:31 AM           999,999 nuclear_codes.txt
+04/06/2025  09:31 AM         5,000,001 trojan_horse.exe
+04/06/2025  09:31 AM           777,777 system32_backup.zip
+04/06/2025  09:31 AM           543,210 omg_this_is_real.png
+04/06/2025  09:31 AM         8,008,008 boobs.jpg
+04/06/2025  09:31 AM         2,222,222 funny_meme.mp4
+04/06/2025  09:31 AM           888,888 virus_scanner.log
+04/06/2025  09:31 AM           123,456 not_a_virus.bat
+04/06/2025  09:31 AM           101,010 im_watching_you.txt
+04/06/2025  09:31 AM         6,969,696 shady_file.mkv
+04/06/2025  09:32 AM         512,512 hidden_data.bin
+04/06/2025  09:32 AM         777,000 random_stuff.tmp
+04/06/2025  09:32 AM         333,333 error_log.log
+04/06/2025  09:32 AM         444,444 system_update.exe
+04/06/2025  09:32 AM         555,555 configuration.cfg
+04/06/2025  09:32 AM         666,666 rickroll.exe
+04/06/2025  09:32 AM         777,777 archive.rar
+04/06/2025  09:32 AM         888,888 backup.bak
+04/06/2025  09:32 AM         999,999 credentials.csv
+04/06/2025  09:32 AM         101,112 debug_info.txt
+04/06/2025  09:32 AM         202,224 temp_file.tmp
+04/06/2025  09:32 AM         303,336 final_version.zip
+
+              28 File(s)     25,678,900 bytes
+              10 Dir(s)  42,000,000,000 bytes free
+`;
+  contentDiv.innerHTML = `<pre style="${style}">${fakeDirOutput}</pre>`;
+  const pre = contentDiv.querySelector('pre');
+
   setTimeout(() => {
-    clearInterval(interval);
-    desktop.closeWindow(termWinId);
-  }, 10000);
+    pre.style.transition = 'transform 0.1s linear';
+    pre.style.transform = 'translateY(-2000px)';
+    
+    setTimeout(() => {
+      pre.style.transition = 'none';
+      pre.style.transform = 'translateY(0)';
+      contentDiv.style.overflowY = 'auto';
+
+      pre.textContent = '$ ';
+      simulateTyping(pre, 'curl ascii.live/rick\n', 30);
+
+      const frames = [
+        "    Never gonna give you up    ",
+        "    Never gonna let you down  ",
+        "    Never gonna run around   ",
+        "    and desert you            ",
+        "    Never gonna make you cry  ",
+        "    Never gonna say goodbye  ",
+        "    Never gonna tell a lie    ",
+        "    and hurt you             "
+      ];
+
+      let idx = 0;
+      const interval = setInterval(() => {
+        pre.textContent = `$ curl ascii.live/rick\n${frames[idx]}`;
+        idx = (idx + 1) % frames.length;
+      }, 500);
+      setTimeout(() => {
+        clearInterval(interval);
+        desktop.closeWindow(termWinId);
+      }, 10000);
+    }, 300); // Kaydırma tamamlanma süresi (0.3s)
+  }, 2500);
+}
+
+function simulateTyping(element, text, delay = 50) {
+  let i = 0;
+  const timer = setInterval(() => {
+    element.textContent += text[i];
+    element.scrollTop = element.scrollHeight; // Otomatik kaydırma
+    if (++i === text.length) clearInterval(timer);
+  }, delay);
 }
 
 function openWindow(id, filePath) {
-  // Prank şakası: IP + konum + Rickroll terminal
-  if (id === 'prank') {
-    Promise.all([
-      fetch('https://api.ipify.org?format=json').then(res => res.json()),
-      new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve(null);
-        navigator.geolocation.getCurrentPosition(
-          pos => resolve(pos.coords),
-          () => resolve(null),
-          { timeout: 5000 }
-        );
+  // Network şakası: Sadece IP alımı
+  if (id === 'Network') {
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(ipData => {
+        const content = `<div style="color: #08cad8; font-family: monospace; padding:20px;">
+          <p>Your IP: ${ipData.ip}</p>
+        </div>`;
+        desktop.createWindow('Gotcha!', content);
+        // Terminal pencere şakası
+        setTimeout(() => {
+          const termWinId = desktop.createWindow('Terminal', '');
+          animateRickRoll(termWinId);
+        }, 2000);
       })
-    ]).then(([ipData, coords]) => {
-      let content = `<div style="color: #08cad8; font-family: monospace; padding:20px;">
-        <p>Your IP: ${ipData.ip}</p>`;
-      if (coords) {
-        content += `<p>Latitude: ${coords.latitude.toFixed(4)}</p>
-                    <p>Longitude: ${coords.longitude.toFixed(4)}</p>`;
-      } else {
-        content += `<p>Location: Permission denied or unavailable</p>`;
-      }
-      content += `</div>`;
-      desktop.createWindow('Gotcha!', content);
-      // Terminal pencere şakası
-      setTimeout(() => {
-        const termWinId = desktop.createWindow('Terminal', '');
-        animateRickRoll(termWinId);
-      }, 2000);
-    }).catch(() => {
-      const content = `<div style="color: #f00; padding:20px;">IP veya konum alınamadı.</div>`;
-      desktop.createWindow('Hata', content);
-    });
+      .catch(() => {
+        const content = `<div style="color: #f00; padding:20px;">IP alınamadı.</div>`;
+        desktop.createWindow('Hata', content);
+      });
     return;
   }
 
