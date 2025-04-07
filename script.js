@@ -9,11 +9,20 @@ class WindowManager {
   init() {
     const startButton = document.getElementById("start-button");
     const startMenu = document.getElementById("start-menu");
-
-    startButton.addEventListener("click", () => {
+  
+    // Start butonuna tıklandığında menüyü aç/kapa ve tıklamanın yukarı taşınmasını engelle
+    startButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       startMenu.classList.toggle("hidden");
     });
-
+  
+    // Belirli alanlar dışında bir yere tıklandığında start menüsünü kapat
+    document.addEventListener("click", (e) => {
+      if (!startMenu.contains(e.target) && e.target !== startButton) {
+        startMenu.classList.add("hidden");
+      }
+    });
+  
     this.updateClock();
     setInterval(() => this.updateClock(), 1000);
   }
@@ -147,14 +156,96 @@ class WindowManager {
     item.className = 'taskbar-item';
     item.textContent = title;
     item.dataset.windowId = id;
+    item.draggable = true; // Sürüklenebilirlik eklendi
+  
     item.addEventListener('click', () => {
       const win = document.getElementById(id);
       if (win.style.display === 'none') this.restoreWindow(id);
       else this.minimizeWindow(id);
     });
+  
+    // Drag olayları ekleniyor
+    item.addEventListener('dragstart', this.onTaskbarDragStart.bind(this));
+    item.addEventListener('dragover', this.onTaskbarDragOver.bind(this));
+    item.addEventListener('drop', this.onTaskbarDrop.bind(this));
+  
     document.getElementById('taskbar-items').appendChild(item);
     this.taskbarItems.set(id, item);
   }
+  
+  onTaskbarDragStart(e) {
+    // Sürüklenen öğenin windowId'sini veri olarak saklıyoruz
+    e.dataTransfer.setData("text/plain", e.target.dataset.windowId);
+  }
+  
+  onTaskbarDragOver(e) {
+    e.preventDefault();
+    const target = e.target.closest('.taskbar-item');
+    if (!target) return;
+  
+    // Hedef öğenin yarısını baz alarak konumu belirleyin
+    const rect = target.getBoundingClientRect();
+    const midPoint = rect.left + rect.width / 2;
+  
+    // Önce mevcut tüm drop indicatorları kaldırın
+    document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+  
+    // Drop indicator oluştur
+    const indicator = document.createElement('div');
+    indicator.className = 'drop-indicator';
+    // Göstergenin konumunu ayarlamak için container'ı ve offset'lerini kullanın
+    indicator.style.position = 'absolute';
+    indicator.style.width = '2px';
+    indicator.style.height = '100%';
+    indicator.style.backgroundColor = '#ffffff';
+  
+    const container = document.getElementById('taskbar-items');
+    // Indicator'ı container'ın konumuna göre ayarlamak için container'ın sol offset'ini hesaba katın
+    const containerRect = container.getBoundingClientRect();
+    let leftPos;
+    
+    if (e.clientX < midPoint) {
+      // Hedef öğenin soluna yerleştir
+      leftPos = target.offsetLeft;
+      container.insertBefore(indicator, target);
+    } else {
+      // Hedef öğenin sağına yerleştir
+      leftPos = target.offsetLeft + target.offsetWidth;
+      container.insertBefore(indicator, target.nextSibling);
+    }
+    indicator.style.left = `${leftPos}px`;
+  }
+  
+  onTaskbarDrop(e) {
+    e.preventDefault();
+    // Drop indicator varsa kaldır
+    document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+    
+    const draggedId = e.dataTransfer.getData("text/plain");
+    const target = e.target.closest('.taskbar-item');
+    if (!target || target.dataset.windowId === draggedId) return;
+  
+    const container = document.getElementById('taskbar-items');
+    const draggedElem = this.taskbarItems.get(draggedId);
+    
+    // Öğelerin container içindeki index'lerini kontrol edip yer değiştiriyoruz
+    const childrenArray = Array.from(container.children);
+    const draggedIndex = childrenArray.indexOf(draggedElem);
+    const targetIndex = childrenArray.indexOf(target);
+  
+    if (draggedIndex < targetIndex) {
+      container.insertBefore(draggedElem, target.nextSibling);
+    } else {
+      container.insertBefore(draggedElem, target);
+    }
+  }
+  
+  onTaskbarDragLeave(e) {
+    // Öğeden ayrılırken drop indicator'ı kaldır
+    document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+  }
+  
+  
 
   makeDraggable(win) {
     const header = win.querySelector('.window-header');

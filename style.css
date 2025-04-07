@@ -170,6 +170,15 @@ body {
   padding: 5px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   z-index: 9999;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.start-menu.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none; /* Menü kapalıyken tıklamaları engelle */
 }
 
 .start-menu-item {
