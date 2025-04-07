@@ -178,7 +178,7 @@ body {
 .start-menu.hidden {
   opacity: 0;
   transform: translateY(10px);
-  pointer-events: none; /* Menü kapalıyken tıklamaları engelle */
+  pointer-events: none; 
 }
 
 .start-menu-item {

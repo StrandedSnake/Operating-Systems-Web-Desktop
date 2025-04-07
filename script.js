@@ -39,20 +39,28 @@ class WindowManager {
     win.className = "window";
     win.id = id;
     win.style.zIndex = this.zIndex++;
-
-    // Terminal'e özel boyutlandırma, diğerleri için varsayılan boyutlar
+  
+    // Yeni pencere oluşturulurken mevcut açık pencere sayısına göre offset hesaplama:
+    const offset = this.windows.length * 35; // Her pencere için 20px offset
+    // Varsayılan konum ayarı: Merkezde açılması
+    let left, top;
+  
+    
     if (title === 'Terminal') {
+      left = `calc(50% - 650px + ${offset}px)`;
+      top = `calc(50% - 500px + ${offset}px)`;
       win.style.width = "600px";
       win.style.height = "400px";
-      win.style.left = `calc(50% - 650px)`;
-      win.style.top = `calc(50% - 500px)`;
     } else {
+      left = `calc(50% - 400px + ${offset}px)`;
+      top = `calc(30% - 350px + ${offset}px)`;
       win.style.width = "800px";
       win.style.height = "700px";
-      win.style.left = `calc(50% - 400px)`;
-      win.style.top = `calc(30% - 350px)`;
     }
-
+    
+    win.style.left = left;
+    win.style.top = top;
+  
     win.innerHTML = `
       <div class="window-header">
         <span>${title}</span>
@@ -64,19 +72,20 @@ class WindowManager {
       </div>
       <div class="window-content">${content}</div>
     `;
-
+  
     document.getElementById("windows").appendChild(win);
     this.windows.push(win);
     this.addTaskbarItem(id, title);
-
+  
     this.makeDraggable(win);
     this.makeResizable(win);
     win.querySelector('.minimize').addEventListener('click', () => this.minimizeWindow(id));
     win.querySelector('.close').addEventListener('click', () => this.closeWindow(id));
     win.querySelector('.fullscreen').addEventListener('click', () => this.toggleFullscreen(id));
-
+  
     return id;
   }
+  
 
   bringToFront(id) {
     const win = document.getElementById(id);
