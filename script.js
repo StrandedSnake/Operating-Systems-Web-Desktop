@@ -35,8 +35,18 @@ class WindowManager {
     if (title === 'Terminal') {
       win.style.width = "600px";
       win.style.height = "400px";
+<<<<<<< Updated upstream
       win.style.left = `calc(50% - 650px)`;
       win.style.top = `calc(50% - 500px)`;
+=======
+<<<<<<< HEAD
+      win.style.left = `calc(50% - 700px)`;
+      win.style.top = `calc(50% - 60px)`;
+=======
+      win.style.left = `calc(50% - 1100px)`;
+      win.style.top = `calc(50% - 850px)`;
+>>>>>>> 6d7b74e81cd0f97af909dfd1f156c4386c5e6507
+>>>>>>> Stashed changes
     } else {
       win.style.width = "800px";
       win.style.height = "700px";
