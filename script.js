@@ -350,12 +350,12 @@ $ dir /s
       setTimeout(() => {
         clearInterval(interval);
         desktop.closeWindow(termWinId);
-      }, 10000);
+      }, 5000);
     }, 300); // Kaydırma tamamlanma süresi (0.3s)
   }, 2500);
 }
 
-function simulateTyping(element, text, delay = 50) {
+function simulateTyping(element, text, delay = 5000) {
   let i = 0;
   const timer = setInterval(() => {
     element.textContent += text[i];
