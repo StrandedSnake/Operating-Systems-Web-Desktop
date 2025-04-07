@@ -345,23 +345,6 @@ class WindowManager {
 
 const desktop = new WindowManager();
 
-// Dinamik olarak "Network" ikonu ekle
-window.addEventListener('DOMContentLoaded', () => {
-  const desktopArea = document.querySelector('.desktop .row .col-12');
-  if (desktopArea) {
-    const NetworkIcon = document.createElement('div');
-    NetworkIcon.className = 'icon m-2';
-    NetworkIcon.innerHTML = `
-      <div class="icon-image">
-        <img src="icons/wifi-signal.png" class="img-fluid" alt="">
-      </div>
-      <div class="icon-label text-center">Network</div>
-    `;
-    NetworkIcon.addEventListener('dblclick', () => openWindow('Network'));
-    desktopArea.appendChild(NetworkIcon);
-  }
-});
-
 function animateRickRoll(termWinId) {
   const win = document.getElementById(termWinId);
   const contentDiv = win.querySelector('.window-content');
