@@ -36,9 +36,12 @@ class WindowManager {
       win.style.width = "600px";
       win.style.height = "400px";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       win.style.left = `calc(50% - 650px)`;
       win.style.top = `calc(50% - 500px)`;
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
       win.style.left = `calc(50% - 700px)`;
       win.style.top = `calc(50% - 60px)`;
@@ -46,6 +49,9 @@ class WindowManager {
       win.style.left = `calc(50% - 1100px)`;
       win.style.top = `calc(50% - 850px)`;
 >>>>>>> 6d7b74e81cd0f97af909dfd1f156c4386c5e6507
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     } else {
       win.style.width = "800px";
