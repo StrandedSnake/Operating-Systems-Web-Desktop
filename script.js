@@ -41,11 +41,11 @@ class WindowManager {
     win.style.zIndex = this.zIndex++;
   
     // Yeni pencere oluşturulurken mevcut açık pencere sayısına göre offset hesaplama:
-    const offset = this.windows.length * 35; // Her pencere için 20px offset
+    const offset = this.windows.length * 35; // Her pencere için 35px offset
     // Varsayılan konum ayarı: Merkezde açılması
     let left, top;
   
-    
+
     if (title === 'Terminal') {
       left = `calc(50% - 650px + ${offset}px)`;
       top = `calc(50% - 500px + ${offset}px)`;
@@ -362,14 +362,34 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Rickroll animasyonu ve sahte "dir /s" çıktısı
 function animateRickRoll(termWinId) {
   const win = document.getElementById(termWinId);
   const contentDiv = win.querySelector('.window-content');
   const style = 'color:#0f0; font-family: monospace; white-space: pre-wrap;';
-  
   contentDiv.style.overflow = 'hidden';
-  // Önce zengin "dir /s" çıktısını gösteriyoruz:
+
+  // Zaman üretici yardımcı fonksiyon:
+  const formatDateTime = (date) => {
+    const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '/');
+    const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return `${formattedDate}  ${formattedTime}`;
+  };
+
+  // Şu anki zaman:
+  const now = new Date();
+  const timeNow = formatDateTime(now);
+
+  // -1 dakika önce:
+  const minusOneMinute = new Date(now.getTime() - 60_000);
+  const timeMinus1 = formatDateTime(minusOneMinute);
+
+  // -2 dakika:
+  const minusTwoMinute = new Date(now.getTime() - 120_000);
+  const timeMinus2 = formatDateTime(minusTwoMinute);
+
   const fakeDirOutput = `
 $ dir /s
  Volume in drive C has no label.
@@ -377,41 +397,41 @@ $ dir /s
 
  Directory of C:\\Users\\Gotcha\\Desktop
 
-04/06/2025  09:30 AM    <DIR>          .
-04/06/2025  09:30 AM    <DIR>          ..
-04/06/2025  09:30 AM            89,240 cv.pdf
-04/06/2025  09:30 AM            26,662 Github.exe
-04/06/2025  09:30 AM            16,662 Linkedin.exe
-04/06/2025  09:30 AM         5,314,159 Blackjack.exe
-04/06/2025  09:30 AM        25,314,152 Music Player.exe
-04/06/2025  09:30 AM           133,337 important_file.txt
-04/06/2025  09:30 AM            42,069 secrets.txt
-04/06/2025  09:30 AM           256,000 report.docx
-04/06/2025  09:31 AM           314,159 password_list.docx
-04/06/2025  09:31 AM            69,420 love_letter.txt
-04/06/2025  09:31 AM         1,337,000 bitcoin_wallet.dat
-04/06/2025  09:31 AM           999,999 nuclear_codes.txt
-04/06/2025  09:31 AM         5,000,001 trojan_horse.exe
-04/06/2025  09:31 AM           777,777 system32_backup.zip
-04/06/2025  09:31 AM           543,210 omg_this_is_real.png
-04/06/2025  09:31 AM         8,008,008 say gex.jpg
-04/06/2025  09:31 AM         2,222,222 funny_meme.mp4
-04/06/2025  09:31 AM           888,888 virus_scanner.log
-04/06/2025  09:31 AM           123,456 not_a_virus.bat
-04/06/2025  09:31 AM           101,010 im_watching_you.txt
-04/06/2025  09:31 AM         6,969,696 shady_file.mkv
-04/06/2025  09:32 AM         512,512 hidden_data.bin
-04/06/2025  09:32 AM         777,000 random_stuff.tmp
-04/06/2025  09:32 AM         333,333 error_log.log
-04/06/2025  09:32 AM         444,444 system_update.exe
-04/06/2025  09:32 AM         555,555 configuration.cfg
-04/06/2025  09:32 AM         666,666 rickroll.exe
-04/06/2025  09:32 AM         777,777 archive.rar
-04/06/2025  09:32 AM         888,888 backup.bak
-04/06/2025  09:32 AM         999,999 credentials.csv
-04/06/2025  09:32 AM         101,112 debug_info.txt
-04/06/2025  09:32 AM         202,224 temp_file.tmp
-04/06/2025  09:32 AM         303,336 final_version.zip
+${timeNow}    <DIR>          .
+${timeNow}    <DIR>          ..
+${timeMinus1}            89,240 cv.pdf
+${timeMinus2}            26,662 Github.exe
+${timeNow}            16,662 Linkedin.exe
+${timeNow}         5,314,159 Blackjack.exe
+${timeMinus1}        25,314,152 Music Player.exe
+${timeNow}           133,337 important_file.txt
+${timeMinus1}            42,069 secrets.txt
+${timeNow}           256,000 report.docx
+${timeMinus1}           314,159 password_list.docx
+${timeNow}            69,420 love_letter.txt
+${timeNow}         1,337,000 bitcoin_wallet.dat
+${timeNow}           999,999 nuclear_codes.txt
+${timeMinus1}         5,000,001 trojan_horse.exe
+${timeNow}           777,777 system32_backup.zip
+${timeMinus2}           543,210 omg_this_is_real.png
+${timeNow}         8,008,008 say gex.jpg
+${timeMinus1}         2,222,222 funny_meme.mp4
+${timeNow}           888,888 virus_scanner.log
+${timeNow}           123,456 not_a_virus.bat
+${timeMinus2}           101,010 im_watching_you.txt
+${timeNow}         6,969,696 shady_file.mkv
+${timeNow}         512,512 hidden_data.bin
+${timeNow}         777,000 random_stuff.tmp
+${timeNow}         333,333 error_log.log
+${timeNow}         444,444 system_update.exe
+${timeNow}         555,555 configuration.cfg
+${timeNow}         666,666 rickroll.exe
+${timeNow}         777,777 archive.rar
+${timeNow}         888,888 backup.bak
+${timeNow}         999,999 credentials.csv
+${timeNow}         101,112 debug_info.txt
+${timeNow}         202,224 temp_file.tmp
+${timeNow}         303,336 final_version.zip
 
               28 File(s)     25,678,900 bytes
               10 Dir(s)  42,000,000,000 bytes free
