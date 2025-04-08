@@ -65,7 +65,7 @@ body {
   flex-direction: column;
   resize: both;
   overflow: hidden;
-  transform: none !important; /* Tüm transform efektlerini devre dışı bırak */
+  pointer-events: all;
 }
 
 .window-header {
