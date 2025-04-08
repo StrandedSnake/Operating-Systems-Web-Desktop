@@ -27,6 +27,7 @@ class WindowManager {
     setInterval(() => this.updateClock(), 1000);
   }
 
+
   updateClock() {
     const clock = document.getElementById("clock");
     const now = new Date();
@@ -40,26 +41,29 @@ class WindowManager {
     win.id = id;
     win.style.zIndex = this.zIndex++;
   
-    // Yeni pencere oluşturulurken mevcut açık pencere sayısına göre offset hesaplama:
-    const offset = this.windows.length * 35; // Her pencere için 35px offset
-    // Varsayılan konum ayarı: Merkezde açılması
-    let left, top;
-  
-
-    if (title === 'Terminal') {
-      left = `calc(50% - 650px + ${offset}px)`;
-      top = `calc(50% - 500px + ${offset}px)`;
-      win.style.width = "600px";
-      win.style.height = "400px";
-    } else {
-      left = `calc(50% - 400px + ${offset}px)`;
-      top = `calc(30% - 350px + ${offset}px)`;
-      win.style.width = "800px";
-      win.style.height = "700px";
-    }
+    // Viewport merkez noktası
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     
-    win.style.left = left;
-    win.style.top = top;
+    // Pencere boyutları
+    const width = title === 'Terminal' ? 600 : 800;
+    const height = title === 'Terminal' ? 400 : 700;
+    
+    // Offset hesaplama (Her pencere için 30px kaydırma)
+    const offset = this.windows.length * 30;
+    
+    // Merkez pozisyonu + offset
+    const left = (vw/2 - width/2) + offset;
+    const top = (vh/2 - height/2) + offset;
+  
+    // Ekran sınır kontrolü
+    const clampLeft = Math.max(20, Math.min(left, vw - width - 20));
+    const clampTop = Math.max(20, Math.min(top, vh - height - 60));
+  
+    win.style.width = `${width}px`;
+    win.style.height = `${height}px`;
+    win.style.left = `${clampLeft}px`;
+    win.style.top = `${clampTop}px`;
   
     win.innerHTML = `
       <div class="window-header">
@@ -79,9 +83,20 @@ class WindowManager {
   
     this.makeDraggable(win);
     this.makeResizable(win);
-    win.querySelector('.minimize').addEventListener('click', () => this.minimizeWindow(id));
-    win.querySelector('.close').addEventListener('click', () => this.closeWindow(id));
-    win.querySelector('.fullscreen').addEventListener('click', () => this.toggleFullscreen(id));
+    win.querySelector('.minimize').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.minimizeWindow(id);
+    });
+    
+    win.querySelector('.close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.closeWindow(id);
+    });
+    
+    win.querySelector('.fullscreen').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleFullscreen(id);
+    });
   
     return id;
   }
