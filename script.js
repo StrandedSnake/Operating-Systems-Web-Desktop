@@ -1,3 +1,38 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const loginScreen = document.getElementById('login-screen');
+  const loginButton = document.getElementById('login-button');
+  const clockEl     = document.getElementById('login-clock');
+  const desktopArea = document.querySelector('.desktop');
+  const taskbar     = document.querySelector('.taskbar');
+  const windowsDiv  = document.getElementById('windows');
+
+  // Başlangıçta masaüstünü gizle
+  desktopArea.style.display = 'none';
+  taskbar.style.display     = 'none';
+  windowsDiv.style.display  = 'none';
+
+  // Saat güncelleme
+  function updateLoginClock() {
+    const now = new Date();
+    clockEl.textContent = now.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+  }
+  updateLoginClock();
+  setInterval(updateLoginClock, 60_000);
+
+  // Giriş butonuna tıklayınca fade‑out
+  loginButton.addEventListener('click', () => {
+    loginScreen.style.transition = 'opacity 0.5s ease';
+    loginScreen.style.opacity    = '0';
+    setTimeout(() => {
+      loginScreen.remove();
+      desktopArea.style.display = 'flex';
+      taskbar.style.display     = 'flex';
+      windowsDiv.style.display  = 'block';
+    }, 500);
+  });
+});
+
+
 class WindowManager {
   constructor() {
     this.windows = [];

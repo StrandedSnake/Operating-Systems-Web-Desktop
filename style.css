@@ -7,6 +7,93 @@ body {
   overflow: hidden;
 }
 
+/* === LINUX‑MINT‑STİL LOGIN EKRANI === */
+#login-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  /* Dotted grid background */
+  background-color: transparent !important;
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  display: flex;
+  flex-direction: column;
+  pointer-events: all;
+  z-index: 10000;
+}
+
+/* Üst panel */
+#login-topbar {
+  height: 40px;
+  background: #222222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  color: #eee;
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 0.9rem;
+}
+
+.login-hostname {
+  text-transform: lowercase;
+}
+
+.login-status {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.login-lang {
+  cursor: default;
+}
+
+.login-clock {
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Ortadaki içerik */
+#login-content {
+  position: absolute;
+  top: 50%;
+  left: 25%;              /* yüzde 25 sola kaydırdık */
+  transform: translateY(-50%);
+  /* Eski flex-center özelliklerini iptal etmek için: */
+  display: block;
+  text-align: left;
+}
+
+.login-session {
+  color:#fff;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+/* Buton */
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 25px;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.login-arrow {
+  font-size: 1.2rem;
+}
+
 
 .desktop {
   display: flex;
