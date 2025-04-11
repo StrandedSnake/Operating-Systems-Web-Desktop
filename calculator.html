@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: white;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+    .calculator {
+      background: #2a2a40;
+      border-radius: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    }
+    .display, .history {
+      background: #1e1e2f;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: right;
+    }
+    .display {
+      font-size: 2rem;
+    }
+    .history {
+      font-size: 0.85rem;
+      color: #bbb;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .history::-webkit-scrollbar {
+      width: 6px;
+    }
+    .history::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .history::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .history:hover::-webkit-scrollbar-thumb {
+      background-color: #7ecbff;
+    }
+
+    /* 5×5 buton ızgarası */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: minmax(50px, auto);
+      gap: 8px;
+    }
+
+    /* Ortak buton stili */
+    .button-grid .btn {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: none;
+      font-weight: 500;
+      transition: background-color 0.2s, box-shadow 0.2s;
+      padding: 0;
+      font-size: 1.2rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .button-grid .btn:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn-light {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .btn-light:hover {
+      background-color: #e0e0e0;
+    }
+    .btn-warning {
+      background-color: #ffffff;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    .btn-warning:hover {
+      background-color: #f2f2f2;
+    }
+    .btn-info {
+      background-color: #ffffff;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    .btn-info:hover {
+      background-color: #f2f2f2;
+    }
+    .btn-secondary {
+      background-color: #ff6b6b;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background-color: #ff5252;
+    }
+    .btn-success {
+      background-color: #4caf50;
+      color: white;
+    }
+    .btn-success:hover {
+      background-color: #43a047;
+    }
+
+    /* "=" tuşu 4. ve 5. satırı kapsasın */
+    .btn-equals {
+      grid-column: 5;
+      grid-row: 4 / span 2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <div id="history" class="history"></div>
+  <div id="display" class="display mb-3">0</div>
+
+  <div class="button-grid">
+    <!-- 1. Satır -->
+    <button class="btn btn-secondary" onclick="undo()">
+      <i class="bi bi-backspace-fill"></i>
+    </button>
+    <button class="btn btn-warning" onclick="appendOperator('(')">(</button>
+    <button class="btn btn-warning" onclick="appendOperator(')')">)</button>
+    <button class="btn btn-warning" onclick="appendOperator('%')">mod</button>
+    <button class="btn btn-warning" onclick="appendPi()">π</button>
+
+    <!-- 2. Satır -->
+    <button class="btn btn-light" onclick="appendNumber('7')">7</button>
+    <button class="btn btn-light" onclick="appendNumber('8')">8</button>
+    <button class="btn btn-light" onclick="appendNumber('9')">9</button>
+    <button class="btn btn-warning" onclick="appendOperator('/')">÷</button>
+    <button class="btn btn-info" onclick="squareRoot()">√</button>
+
+    <!-- 3. Satır -->
+    <button class="btn btn-light" onclick="appendNumber('4')">4</button>
+    <button class="btn btn-light" onclick="appendNumber('5')">5</button>
+    <button class="btn btn-light" onclick="appendNumber('6')">6</button>
+    <button class="btn btn-warning" onclick="appendOperator('*')">×</button>
+    <button class="btn btn-info" onclick="square()">x²</button>
+
+    <!-- 4. Satır -->
+    <button class="btn btn-light" onclick="appendNumber('1')">1</button>
+    <button class="btn btn-light" onclick="appendNumber('2')">2</button>
+    <button class="btn btn-light" onclick="appendNumber('3')">3</button>
+    <button class="btn btn-warning" onclick="appendOperator('-')">−</button>
+    <button class="btn btn-success btn-equals" onclick="calculateResult()">=</button>
+
+    <!-- 5. Satır -->
+    <button class="btn btn-light" onclick="appendNumber('0')">0</button>
+    <button class="btn btn-light" onclick="appendDot()">,</button>
+    <button class="btn btn-light" onclick="appendOperator('%')">%</button>
+    <button class="btn btn-warning" onclick="appendOperator('+')">+</button>
+  
+  </div>
+</div>
+
+<script>
+  let display = document.getElementById('display');
+  let history = document.getElementById('history');
+  let currentInput = '';
+
+  function updateDisplay() {
+    display.innerText = currentInput || '0';
+  }
+  function appendNumber(n) {
+    currentInput += n;
+    updateDisplay();
+  }
+  function appendOperator(op) {
+    currentInput += op;
+    updateDisplay();
+  }
+  function appendDot() {
+    currentInput += '.';
+    updateDisplay();
+  }
+  function appendPi() {
+    currentInput += 'π';
+    updateDisplay();
+  }
+  function clearDisplay() {
+    currentInput = '';
+    updateDisplay();
+  }
+  function undo() {
+    currentInput = currentInput.slice(0, -1);
+    updateDisplay();
+  }
+  function squareRoot() {
+    try {
+      let expr = currentInput.replace(/π/g, Math.PI);
+      currentInput = Math.sqrt(eval(expr)).toString();
+      updateDisplay();
+    } catch {
+      showError();
+    }
+  }
+  function square() {
+    try {
+      let expr = currentInput.replace(/π/g, Math.PI);
+      currentInput = Math.pow(eval(expr), 2).toString();
+      updateDisplay();
+    } catch {
+      showError();
+    }
+  }
+  function inverse() {
+    try {
+      let expr = currentInput.replace(/π/g, Math.PI);
+      currentInput = (1 / eval(expr)).toString();
+      updateDisplay();
+    } catch {
+      showError();
+    }
+  }
+  function calculateResult() {
+    try {
+      let expr = currentInput.replace(/π/g, Math.PI);
+      let result = eval(expr);
+      let entry = document.createElement('div');
+      entry.textContent = `${currentInput} = ${result}`;
+      history.appendChild(entry);
+      history.scrollTop = history.scrollHeight;
+      currentInput = result.toString();
+      updateDisplay();
+    } catch {
+      showError();
+    }
+  }
+  function showError() {
+    currentInput = 'Hata';
+    updateDisplay();
+    setTimeout(clearDisplay, 1500);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+    if (['+', '-', '*', '/', '(', ')', '%'].includes(e.key)) appendOperator(e.key);
+    if (e.key === '.') appendDot();
+    if (e.key === 'Enter') calculateResult();
+    if (e.key === 'Backspace') undo();
+    if (e.key === 'Escape') clearDisplay();
+  });
+</script>
+
+</body>
+</html>

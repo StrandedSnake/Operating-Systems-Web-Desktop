@@ -326,6 +326,7 @@ class WindowManager {
       case 'github':
       case 'linkedin':
       case 'blackjack':
+      case 'calculator':
       case 'musicplayer': return this.getIframeContent(filePath);
       case 'Trash': return this.getTrashContent();
       default: return '<div>Dosya bulunamadı</div>';
@@ -368,8 +369,8 @@ function animateRickRoll(termWinId) {
 
   // Zaman üretici yardımcı fonksiyon:
   const formatDateTime = (date) => {
-    const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '/');
-    const formattedTime = date.toLocaleTimeString('en-US', {
+    const formattedDate = date.toLocaleDateString('TR-tr').replace(/\//g, '/');
+    const formattedTime = date.toLocaleTimeString('TR-tr', {
       hour: '2-digit',
       minute: '2-digit',
     });
@@ -513,7 +514,8 @@ function openWindow(id, filePath) {
     linkedin: 'LinkedIn',
     blackjack: 'blackjack',
     musicplayer: 'Music Player',
-    Trash: 'Trash'
+    Trash: 'Trash',
+    calculator: 'calculator',
   };
   const title = titleMap[id] || 'Yeni Pencere';
   const content = desktop.getContent(id, filePath);
