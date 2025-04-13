@@ -628,6 +628,11 @@ document.getElementById('login-button').addEventListener('click', () => {
   showNotification('Verdiğimiz rahatsızlıktan dolayı özür dileriz, en yakın zamanda daha iyi bir hizmet vereceğiz.');
 });
 
+document.getElementById('start-button').addEventListener('click', () => {
+  showNotification('Mardin belediyesi dehşet saçtı oha amq! başkangıç menüsünü tarumar etmişler!');
+});
+
+
 function playNotificationSound() {
   const audio = new Audio('sounds/cena_notification.mp3'); // Ses dosyanızın yolu
   audio.play();
