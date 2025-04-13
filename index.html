@@ -90,14 +90,128 @@
   <!-- Görev Çubuğu -->
   <div class="taskbar fixed-bottom">
     <div class="taskbar-left">
-      <div id="start-button" class="start-button">☰</div>
+      <div class="start-button" id="start-button">
+        <img src="icons/logo_linux_mint_22361.ico" alt="Start" class="start-icon">
+      </div>
       <div id="taskbar-items" class="taskbar-items"></div>
     </div>
     <div class="clock" id="clock"></div>
   </div>
 
   <!-- Başlat Menüsü -->
-  <div id="start-menu" class="start-menu hidden">
+ <!-- Global Tooltip Konteyneri: Sağ Alt -->
+<div id="global-tooltip" class="global-tooltip"></div>
+
+<div id="start-menu" class="start-menu hidden">
+  <!-- Sol Sütun: Küçük ikonlar, aç/kapa düğmesi ve dosya kısayolları -->
+  <div class="start-menu-left">
+    <div class="toggle-button tooltip-container" 
+         data-tooltip-title="Menü" 
+         data-tooltip-desc="Aç/Kapa">
+      <img src="icons/linux_mint_logo_icon_145100.ico" alt="Menu Toggle" />
+    </div>
+    <div class="files-section">
+      <div class="file-item tooltip-container" 
+           data-tooltip-title="Home" 
+           data-tooltip-desc="Ana Dizine Git">
+        <img src="icons/file-folder_2889333.png" alt="Home" />
+      </div>
+      <div class="file-item tooltip-container" 
+           data-tooltip-title="Documents" 
+           data-tooltip-desc="Belgelerim"
+           onclick="openWindow('github','github.html')">
+        <img src="icons/lock_17097402.png" alt="Documents" />
+      </div>
+      <!-- Diğer dosya ikonları -->
+    </div>
+  </div>
+
+  <!-- Sağ Sütun: Mevcut Menü İçeriği -->
+  <div class="start-menu-right">
+    <!-- Üst Kısım: Arama + Kapatma -->
+    <div class="start-menu-top">
+      <div class="start-menu-search">
+        <input type="text" placeholder="Search..." id="start-menu-search-input" />
+      </div>
+      <div class="start-menu-close tooltip-container" 
+           data-tooltip-title="Kapat" 
+           data-tooltip-desc="Pencereyi Kapat"
+           onclick="toggleStartMenu()">
+        <img src="icons/close.jpg" alt="Close" />
+      </div>
+    </div>
+
+    <!-- Alt Kısım: Kategoriler ve Uygulamalar -->
+    <div class="start-menu-bottom">
+      <div class="start-menu-categories">
+        <div class="category-item active tooltip-container" 
+             data-tooltip-title="Tümü" 
+             data-tooltip-desc="Tüm uygulamalar"
+             data-category="all">
+          <img src="icons/dotmatrix_80865.ico" alt="All" />
+          All Applications
+        </div>
+        <div class="category-item tooltip-container" 
+             data-tooltip-title="Internet" 
+             data-tooltip-desc="Web Uygulamaları"
+             data-category="internet">
+          <img src="icons/firefox_alt_macos_bigsur_icon_190171.ico" alt="Internet" />
+          Internet
+        </div>
+        <div class="category-item tooltip-container" 
+             data-tooltip-title="Office" 
+             data-tooltip-desc="Ofis Programları"
+             data-category="office">
+          <img src="icons/office.jpg" alt="Office" />
+          Office
+        </div>
+        <div class="category-item tooltip-container" 
+             data-tooltip-title="Ayarlar" 
+             data-tooltip-desc="Sistem Ayarları"
+             data-category="preferences">
+          <img src="icons/preferences.jpg" alt="Preferences" />
+          Preferences
+        </div>
+        <!-- Ek kategori öğeleri -->
+      </div>
+      
+      <div class="start-menu-apps" id="start-menu-apps">
+        <div class="app-item internet tooltip-container" 
+             data-tooltip-title="Firefox" 
+             data-tooltip-desc="Web Tarayıcı"
+             onclick="openWindow('github','github.html')">
+          <img src="icons/firefox.jpg" alt="Firefox" />
+          Firefox Web Browser
+        </div>
+        <div class="app-item internet tooltip-container" 
+             data-tooltip-title="Mail" 
+             data-tooltip-desc="E-posta Uygulaması"
+             onclick="openWindow('mail','mail.html')">
+          <img src="icons/thunderbird.jpg" alt="Thunderbird" />
+          Thunderbird Mail
+        </div>
+        <div class="app-item office tooltip-container" 
+             data-tooltip-title="Writer" 
+             data-tooltip-desc="Metin İşlemci"
+             onclick="openWindow('libreoffice','libreoffice.html')">
+          <img src="icons/office.jpg" alt="Office" />
+          LibreOffice Writer
+        </div>
+        <div class="app-item preferences tooltip-container" 
+             data-tooltip-title="Ayarlar" 
+             data-tooltip-desc="Sistem Ayarları"
+             onclick="openWindow('settings','settings.html')">
+          <img src="icons/preferences.jpg" alt="Settings" />
+          Settings
+        </div>
+        <!-- Daha fazla uygulama -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+ <div id="start-menu" class="start-menu hidden">
     <div class="start-menu-item" onclick="openWindow('cv', 'cv.pdf')">
       CV Viewer
     </div>
@@ -125,7 +239,8 @@
     <div class="start-menu-item" onclick="location.reload();">
       Restart
     </div>
-  </div>
+  </div> 
+  -->
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

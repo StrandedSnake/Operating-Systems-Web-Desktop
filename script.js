@@ -32,6 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+const iconMap = {
+  cv: 'icons/cv.png',
+  github: 'icons/github-icon.png',
+  linkedin: 'icons/linkedin-icon.png',
+  blackjack: 'icons/blackjack.png',
+  musicplayer: 'icons/MetalGearSolidPhantomPain_IntrudeTape-Photoroom.png',
+  Trash: 'icons/Trash.png',
+  calculator: 'icons/calculator.png'
+};
 
 class WindowManager {
   constructor() {
@@ -69,29 +78,24 @@ class WindowManager {
     clock.textContent = now.toLocaleTimeString("tr-TR");
   }
 
-  createWindow(title, content) {
-    const id = `window_${Date.now()}`;
+  createWindow(title, content, customId = null) {
+    // customId varsa onu, yoksa benzersiz bir ID oluştur
+    const id = customId || `window_${Date.now()}`;
     const win = document.createElement("div");
     win.className = "window";
     win.id = id;
+    // Eğer customId varsa, pencere elementine data attribute olarak ekleyebilirsiniz
+    if (customId) win.dataset.appId = customId;
     win.style.zIndex = this.zIndex++;
   
-    // Viewport merkez noktası
+    // Pencere boyutlandırma ve pozisyonlama işlemleri...
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    
-    // Pencere boyutları
     const width = title === 'Terminal' ? 600 : 800;
     const height = title === 'Terminal' ? 400 : 700;
-    
-    // Offset hesaplama (Her pencere için 30px kaydırma)
     const offset = this.windows.length * 30;
-    
-    // Merkez pozisyonu + offset
-    const left = (vw/2 - width/2) + offset;
-    const top = (vh/2 - height/2) + offset;
-  
-    // Ekran sınır kontrolü
+    const left = (vw / 2 - width / 2) + offset;
+    const top = (vh / 2 - height / 2) + offset;
     const clampLeft = Math.max(20, Math.min(left, vw - width - 20));
     const clampTop = Math.max(20, Math.min(top, vh - height - 60));
   
@@ -114,20 +118,20 @@ class WindowManager {
   
     document.getElementById("windows").appendChild(win);
     this.windows.push(win);
-    this.addTaskbarItem(id, title);
+    // customId'yi addTaskbarItem'a gönderiyoruz
+    this.addTaskbarItem(id, title, customId);
   
+    // Draggable, resizable ve buton eventleri
     this.makeDraggable(win);
     this.makeResizable(win);
     win.querySelector('.minimize').addEventListener('click', (e) => {
       e.stopPropagation();
       this.minimizeWindow(id);
     });
-    
     win.querySelector('.close').addEventListener('click', (e) => {
       e.stopPropagation();
       this.closeWindow(id);
     });
-    
     win.querySelector('.fullscreen').addEventListener('click', (e) => {
       e.stopPropagation();
       this.toggleFullscreen(id);
@@ -135,6 +139,7 @@ class WindowManager {
   
     return id;
   }
+  
   
 
   bringToFront(id) {
@@ -210,12 +215,17 @@ class WindowManager {
     }
   }
 
-  addTaskbarItem(id, title) {
+  addTaskbarItem(id, title, originalId = null) {
     const item = document.createElement('div');
     item.className = 'taskbar-item';
-    item.textContent = title;
     item.dataset.windowId = id;
-    item.draggable = true; // Sürüklenebilirlik eklendi
+    item.draggable = true;
+  
+    // Eğer originalId varsa onu kullan; yoksa id kullanılır.
+    const iconKey = originalId || id;
+    const iconPath = iconMap[iconKey] || 'icons/default-icon.png';
+  
+    item.innerHTML = `<img src="${iconPath}" alt="${title}" class="taskbar-icon">`;
   
     item.addEventListener('click', () => {
       const win = document.getElementById(id);
@@ -223,7 +233,7 @@ class WindowManager {
       else this.minimizeWindow(id);
     });
   
-    // Drag olayları ekleniyor
+    // Drag&drop olayları
     item.addEventListener('dragstart', this.onTaskbarDragStart.bind(this));
     item.addEventListener('dragover', this.onTaskbarDragOver.bind(this));
     item.addEventListener('drop', this.onTaskbarDrop.bind(this));
@@ -542,9 +552,10 @@ function openWindow(id, filePath) {
     return;
   }
 
+  
   // Diğer pencereler
   const titleMap = {
-    cv: 'CV.pdf',
+    cv: 'CV',
     github: 'GitHub',
     linkedin: 'LinkedIn',
     blackjack: 'blackjack',
@@ -554,8 +565,44 @@ function openWindow(id, filePath) {
   };
   const title = titleMap[id] || 'Yeni Pencere';
   const content = desktop.getContent(id, filePath);
-  desktop.createWindow(title, content);
+  desktop.createWindow(title, content, id); // Burada id'yi gönderiyoruz
 
-  if (id === 'Do not Click this!') return window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
-  if (id === 'youtube') return window.open('https://youtu.be/eSnHZnnXjjA?list=RDeSnHZnnXjjA', '_blank');
+  if (id === 'Do not Click this!') 
+    return window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+  if (id === 'youtube') 
+    return window.open('https://youtu.be/eSnHZnnXjjA?list=RDeSnHZnnXjjA', '_blank');
+}
+
+
+// Kategori öğelerine tıklandığında filterUygulamalar(category) fonksiyonunu çağırıyoruz.
+// category = "internet", "office", "all" vb.
+const categoryItems = document.querySelectorAll('.category-item');
+const appItems = document.querySelectorAll('.app-item');
+
+categoryItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Tüm category-item'lardan 'active' class'ını kaldır
+    categoryItems.forEach(ci => ci.classList.remove('active'));
+    // Seçilene ekle
+    item.classList.add('active');
+
+    const selectedCategory = item.getAttribute('data-category');
+    // Uygulamaları filtrele
+    filterUygulamalar(selectedCategory);
+  });
+});
+
+function filterUygulamalar(category) {
+  appItems.forEach(app => {
+    // app'in class'ları içinde 'internet' gibi bir tanım olabilir
+    if (category === 'all') {
+      app.style.display = 'flex'; // Tümünü göster
+    } else {
+      if (app.classList.contains(category)) {
+        app.style.display = 'flex'; 
+      } else {
+        app.style.display = 'none';
+      }
+    }
+  });
 }

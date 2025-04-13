@@ -2,7 +2,7 @@
 body {
   margin: 0;
   height: 100vh;
-  background: url("atam.jpg") center/cover no-repeat;
+  background: url("WhatsApp Görsel 2025-04-13 saat 06.18.31_5e815591.jpg") center/cover no-repeat;
   font-family: "Ubuntu Mono", monospace;
   overflow: hidden;
 }
@@ -100,7 +100,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 15px;
+  gap: 10px;
   height: calc(100vh - 100px); /* Görev çubuğu için boşluk bırak */
   padding: 2px;
   overflow-y: auto; /* Taşan ikonlar için kaydırma */
@@ -147,7 +147,8 @@ body {
   position: absolute;
   background: #313131;
   border: 1px solid #ffffff;
-  border-radius: 5px;
+  border-radius: 8px; /* Yuvarlatılmış kenarlar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
   display: flex;
   flex-direction: column;
   resize: both;
@@ -193,56 +194,70 @@ body {
   left: 0;
   right: 0;
   height: 40px;
-  background: #222222;
+  background: #2f2f2f;
   border-top: 1px solid #444343;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 px;
   backdrop-filter: blur(5px);
 }
 
 .taskbar-left {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
 .start-button {
   cursor: pointer;
-  padding: 5px 10px;
-  color: #ffffff;
-  border: 1px solid #3a3939;
-  background: #363635;
-  border-radius: 3px;
+  padding: 5px;
+  background: #2f2f2f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-button:hover {
-  border: 1px solid #ffffff;
-  background: #5f4646;
+  background: #7fbd40;
+}
+
+.start-icon {
+  width: 42px; /* istediğin boyuta göre ayarlayabilirsin */
+  height: 29px;
+  object-fit: contain;
+}
+.taskbar-icon {
+  width: 32px;   /* İstediğiniz boyuta göre ayarlayın */
+  height: 32px;
+  object-fit: contain;
 }
 
 .taskbar-items {
   display: flex;
-  gap: 10px;
 }
 
 .taskbar-item {
-  padding: 5px 15px;
-  border: 1px solid #3a3939;
-  color: #a8a3a3;
-  border-radius: 3px;
-  cursor: pointer;
-  background: #363635;
+  display: flex;              /* İçeriği yatayda ortalamak için flexbox kullanıyoruz */
+  align-items: center;        /* Dikeyde ortalar */
+  justify-content: center;    /* Yatayda ortalar */
+  padding: 5px;               /* Gereken boşluk, fazla metin görünmemesi için */
+  background: #2f2f2f;       
+  cursor: pointer;            /* Tıklanabilir olduğunu belirtir */
+}
+
+.taskbar-icon {
+  width: 29px;                /* İkonun genişliği, isteklerinize göre ayarlayın */
+  height: 29px;               /* İkonun yüksekliği */
+  object-fit: contain;        /* İkonun orantılı büyümesi/küçülmesi */
+  display: block;             /* Varsayılan inline yerine block kullanılır, ekstra boşluk oluşmasını engeller */
 }
 
 .taskbar-item.active {
-  border: 1px solid #ffffff;
+  background: #616060;
 }
 
 .taskbar-item:hover {
-  border: 1px solid #ffffff;
-  background: #5f4646;
+  background: #616060;
 }
 
 .clock {
@@ -251,39 +266,199 @@ body {
 }
 
 
-/* Başlat Menüsü */
+/* Ana Menü Konteyneri: Flex ile iki sütun yapısı */
 .start-menu {
   position: fixed;
-  bottom: 40px; 
-  left: 20px;
-  width: 200px;
-  background: #2a2a2a;
+  bottom: 41px; /* Taskbar'ın hemen üstünde görünecek */
+  width: 480px; /* Sol sütun eklediğimiz için genişliği arttırdık */
+  background: #2f2f2f;
   border: 1px solid #555;
-  border-radius: 4px;
-  padding: 5px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   z-index: 9999;
-  transition: opacity 3.3s ease, transform 6.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 1;
   transform: translateY(0);
+  display: flex; /* Sol ve sağ sütun yan yana */
 }
 
 .start-menu.hidden {
   opacity: 0;
   transform: translateY(10px);
-  pointer-events: none; 
+  pointer-events: none;
 }
 
-.start-menu-item {
-  padding: 10px;
-  color: #fff;
+.start-menu-left {
+  position: relative; /* Pseudo-elementin konumlandırılması için gerekli */
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-right: none;
+  padding:35px;
+}
+
+/* Pseudo-element ile arka plan ekleme */
+.start-menu-left::before {
+  content: "";
+  position: absolute;
+  top: 10px;       /* Arka planın üstten uzaklığı */
+  left: 10px;      /* Arka planın soldan uzaklığı */
+  right: 10px;     /* Arka planın sağdan uzaklığı */
+  bottom: 10px;    /* Arka planın alttan uzaklığı */
+  background-color: #444;
+  z-index: -1;     /* Arka planda kalmasını sağlar */
+  border-radius: 4px; /* Eğer yuvarlatılmış kenarlar isterseniz */
+}
+
+.toggle-button img {
+  width: 32px;
+  height: 32px;
   cursor: pointer;
+  filter: drop-shadow(0 0 3px #000);
+  transition: transform 0.2s;
 }
 
-.start-menu-item:hover {
-  background: #3f3f3f;
+.toggle-button img:hover {
+  transform: scale(1.1);
 }
 
+.files-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-item img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 2px #000);
+  transition: transform 0.2s;
+}
+
+.file-item img:hover {
+  transform: scale(1.1);
+}
+
+/* Sağ Sütun: Mevcut Menü İçeriği */
+.start-menu-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border:none;
+}
+
+/* Üst Kısım: Arama + Kapatma İkonu */
+.start-menu-top {
+  display: flex;
+  align-items: center;
+  background-color: #2f2f2f;
+  border:#fff;
+  padding: 10px 0px;
+}
+
+.start-menu-search {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.start-menu-search input {
+  width: 117%;
+  padding: 2px;
+  background-color: #444;
+  border: 1px solid #666;
+  color: #ddd;
+  border-radius: 3px;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.start-menu-close img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 3px #000);
+  transition: transform 0.2s;
+}
+
+.start-menu-close img:hover {
+  transform: scale(1.1);
+}
+
+/* Alt Kısım: Kategoriler ve Uygulamalar */
+.start-menu-bottom {
+  display: flex;
+  height: 300px; /* Menü yüksekliği */
+}
+
+/* Kategoriler (Sol Kolon) */
+.start-menu-categories {
+  width: 140px;
+  background-color: #2f2f2f;
+  border:none;
+  overflow-y: auto;
+  padding: px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.category-item img {
+  width: 20px;
+  height: 20px;
+  /*filter: drop-shadow(0 0 2px #000);*/
+}
+
+.category-item:hover,
+.category-item.active {
+  background-color: #3f3f3f;
+  color: #fff;
+}
+
+/* Uygulamalar (Sağ Kolon) */
+.start-menu-apps {
+  flex: 1;
+  overflow-y: auto;
+  padding: 5px;
+  background-color: #2f2f2f;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.app-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  border-radius: 3px;
+}
+
+.app-item img {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 2px #000);
+}
+
+.app-item:hover {
+  background-color: #494949;
+  color: #fff;
+}
 .hidden {
   display: none !important;
 }

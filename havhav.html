@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Resim Düzenleyici</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #2c3e50;
+      color: #ecf0f1;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #34495e;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toolbar .left,
+    .toolbar .right {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background: #e67e22;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #d35400;
+    }
+
+    .canvas-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    canvas {
+      background: #ecf0f1;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #0003;
+      width: 600px;
+      height: 400px;
+    }
+
+    .zoom-control {
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #34495e;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0005;
+    }
+
+    .zoom-control input[type="range"] {
+      width: 120px;
+    }
+
+    .zoom-control span {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="left">
+      <button onclick="undo()">⮪ Geri Al</button>
+      <button onclick="redo()">İleri Al ⮫</button>
+    </div>
+    <div class="right">
+      <button onclick="rotateLeft()">⟲ Sola Döndür</button>
+      <button onclick="rotateRight()">⟳ Sağa Döndür</button>
+    </div>
+  </div>
+
+  <div class="canvas-container">
+    <canvas id="canvas" width="600" height="400"></canvas>
+  </div>
+
+  <div class="zoom-control">
+    <span>Zoom:</span>
+    <input type="range" id="zoomSlider" min="10" max="200" value="100">
+    <span id="zoomLabel">100%</span>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const zoomSlider = document.getElementById('zoomSlider');
+    const zoomLabel = document.getElementById('zoomLabel');
+
+    let baseImage = new Image();
+    baseImage.src = 'atam.jpg';
+
+    let angle = 0;
+    let zoom = 1;
+    let history = [];
+    let redoStack = [];
+
+    baseImage.onload = () => {
+      saveState();
+      redraw();
+    };
+
+    function redraw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+
+      // Zoom'la beraber ölçekleme
+      const scale = Math.min(canvas.width / baseImage.naturalWidth, canvas.height / baseImage.naturalHeight) * zoom;
+      const drawWidth = baseImage.naturalWidth * scale;
+      const drawHeight = baseImage.naturalHeight * scale;
+
+      ctx.drawImage(baseImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+      ctx.restore();
+    }
+
+    zoomSlider.addEventListener('input', () => {
+      zoom = zoomSlider.value / 100;
+      zoomLabel.textContent = `${zoomSlider.value}%`;
+      redraw();
+    });
+
+    function rotateLeft() {
+      angle -= Math.PI / 2;
+      saveState();
+      redraw();
+    }
+
+    function rotateRight() {
+      angle += Math.PI / 2;
+      saveState();
+      redraw();
+    }
+
+    function saveState() {
+      history.push({ angle, zoom });
+      redoStack = [];
+    }
+
+    function undo() {
+      if (history.length > 1) {
+        redoStack.push(history.pop());
+        const prev = history[history.length - 1];
+        angle = prev.angle;
+        zoom = prev.zoom;
+        zoomSlider.value = zoom * 100;
+        zoomLabel.textContent = `${zoomSlider.value}%`;
+        redraw();
+      }
+    }
+
+    function redo() {
+      if (redoStack.length > 0) {
+        const next = redoStack.pop();
+        history.push(next);
+        angle = next.angle;
+        zoom = next.zoom;
+        zoomSlider.value = zoom * 100;
+        zoomLabel.textContent = `${zoomSlider.value}%`;
+        redraw();
+      }
+    }
+  </script>
+</body>
+</html>
