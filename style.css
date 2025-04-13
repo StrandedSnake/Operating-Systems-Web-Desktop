@@ -469,3 +469,35 @@ body {
   left: 10px !important;
   top: 10px !important;
 }
+
+/* Bildirimler için kapsayıcı */
+#notification-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 20000; /* Diğer elemanların üstünde görünmesini sağlar */
+}
+
+/* Tek bir bildirim için stil */
+.notification {
+  background: rgba(50, 50, 50, 0.9);
+  color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeIn 0.3s forwards, fadeOut 0.3s forwards 3.3s;
+}
+
+/* Fade in animasyonu */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade out animasyonu (başlangıcı bildirim gösterildikten sonra gerçekleşir) */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

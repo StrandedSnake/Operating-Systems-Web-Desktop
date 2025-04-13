@@ -606,3 +606,29 @@ function filterUygulamalar(category) {
     }
   });
 }
+function showNotification(message, duration = 8000) {
+  playNotificationSound();
+  const container = document.getElementById('notification-container');
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  container.appendChild(notification);
+
+  // Bildirim süresi bittiğinde fadeOut animasyonu tetiklenip, ardından DOM'dan kaldırılır.
+  setTimeout(() => {
+    // Eğer CSS animasyonlarını kullanıyorsanız, doğrudan stil üzerinden kaldırabilirsiniz:
+    notification.style.animation = `fadeOut 0.3s forwards`;
+    notification.addEventListener('animationend', () => {
+      notification.remove();
+    });
+  }, duration);
+}
+
+document.getElementById('login-button').addEventListener('click', () => {
+  showNotification('Verdiğimiz rahatsızlıktan dolayı özür dileriz, en yakın zamanda daha iyi bir hizmet vereceğiz.');
+});
+
+function playNotificationSound() {
+  const audio = new Audio('sounds/cena_notification.mp3'); // Ses dosyanızın yolu
+  audio.play();
+}
