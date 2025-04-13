@@ -629,7 +629,7 @@ document.getElementById('login-button').addEventListener('click', () => {
 });
 
 document.getElementById('start-button').addEventListener('click', () => {
-  showNotification('Mardin belediyesi dehşet saçtı oha amq! başkangıç menüsünü tarumar etmişler!');
+  showNotification('Mardin belediyesi dehşet saçtı oha amq! başlangıç menüsünü tarumar etmişler!');
 });
 
 
