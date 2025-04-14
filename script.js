@@ -606,21 +606,23 @@ function filterUygulamalar(category) {
     }
   });
 }
-function showNotification(message, duration = 8000) {
-  playNotificationSound();
+
+function showNotification(message, duration = 5000) {
   const container = document.getElementById('notification-container');
+
   const notification = document.createElement('div');
   notification.className = 'notification';
   notification.textContent = message;
   container.appendChild(notification);
 
-  // Bildirim süresi bittiğinde fadeOut animasyonu tetiklenip, ardından DOM'dan kaldırılır.
+  if (container.childElementCount === 1) {
+    playNotificationSound();
+  }
+
+  // Her bildirimi kendi zamanında kapat
   setTimeout(() => {
-    // Eğer CSS animasyonlarını kullanıyorsanız, doğrudan stil üzerinden kaldırabilirsiniz:
-    notification.style.animation = `fadeOut 0.3s forwards`;
-    notification.addEventListener('animationend', () => {
-      notification.remove();
-    });
+    notification.style.animation = 'fadeOut 0.3s forwards';
+    notification.addEventListener('animationend', () => notification.remove());
   }, duration);
 }
 
@@ -629,11 +631,16 @@ document.getElementById('login-button').addEventListener('click', () => {
 });
 
 document.getElementById('start-button').addEventListener('click', () => {
-  showNotification('Mardin belediyesi dehşet saçtı oha amq! başlangıç menüsünü tarumar etmişler!');
+  showNotification('Mardin belediyesi dehşet saçtı! Başlangıç menüsünü bozdular -rep amq.');
 });
 
-
 function playNotificationSound() {
-  const audio = new Audio('sounds/cena_notification.mp3'); // Ses dosyanızın yolu
+  const audio = new Audio('sounds/cena_notification.mp3'); 
   audio.play();
 }
+
+
+
+
+
+

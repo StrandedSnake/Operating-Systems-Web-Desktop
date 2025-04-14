@@ -487,7 +487,7 @@ body {
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   opacity: 0;
-  animation: fadeIn 0.3s forwards, fadeOut 0.3s forwards 3.3s;
+  animation: fadeIn 0.3s forwards;
 }
 
 /* Fade in animasyonu */
