@@ -229,8 +229,17 @@ class WindowManager {
   
     item.addEventListener('click', () => {
       const win = document.getElementById(id);
-      if (win.style.display === 'none') this.restoreWindow(id);
-      else this.minimizeWindow(id);
+      // Eğer pencere görünmezse restore yap
+      if (win.style.display === 'none') {
+        this.restoreWindow(id);
+      } else {
+        // Eğer pencere aktifse (zaten önde) minimize et, değilse öne getir
+        if (this.taskbarItems.get(id).classList.contains('active')) {
+          this.minimizeWindow(id);
+        } else {
+          this.bringToFront(id);
+        }
+      }
     });
   
     // Drag&drop olayları
