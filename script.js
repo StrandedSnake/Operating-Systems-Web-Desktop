@@ -638,13 +638,17 @@ function simulateClose() {
 function showNotification(message, duration = 5000, soundSrc = null) {
   const container = document.getElementById('notification-container');
 
+  const isDuplicate = Array.from(container.children).some(
+    (notification) => notification.textContent === message
+  );
+
   const notification = document.createElement('div');
   notification.className = 'notification';
   notification.textContent = message;
   container.appendChild(notification);
 
   // Bildirim eklendiğinde, ses dosyası belirtildiyse oynat
-  if (soundSrc) {
+  if (!isDuplicate && soundSrc) {
     playNotificationSound(soundSrc);
   }
 
