@@ -193,7 +193,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 42px;
   background: #2f2f2f;
   border-top: 1px solid #444343;
   display: flex;
@@ -222,42 +222,64 @@ body {
 }
 
 .start-icon {
-  width: 42px; /* istediğin boyuta göre ayarlayabilirsin */
-  height: 29px;
+  width: 32px; /* istediğin boyuta göre ayarlayabilirsin */
+  height: 32px;
   object-fit: contain;
 }
 .taskbar-icon {
-  width: 32px;   /* İstediğiniz boyuta göre ayarlayın */
-  height: 32px;
+  width: 38px;   /* İstediğiniz boyuta göre ayarlayın */
+  height: 38px;
   object-fit: contain;
+  border-radius: 5px;
+  transform: translateY(-1.5px); /* Simgeleri 5px yukarı kaldırır */
 }
 
 .taskbar-items {
   display: flex;
+  gap: 8px;
+  border-left: 1px solid #fff; /* Küçük beyaz çitik */
+  padding-left: 5px;          /* Çitikten sonra boşluk bırakır */
+  margin-left: 10px;           /* Çitikten önce boşluk bırakır */
 }
 
 .taskbar-item {
-  display: flex;              /* İçeriği yatayda ortalamak için flexbox kullanıyoruz */
-  align-items: center;        /* Dikeyde ortalar */
-  justify-content: center;    /* Yatayda ortalar */
-  padding: 5px;               /* Gereken boşluk, fazla metin görünmemesi için */
-  background: #2f2f2f;       
-  cursor: pointer;            /* Tıklanabilir olduğunu belirtir */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  background: #2f2f2f;
+  cursor: pointer;
+  position: relative; /* ::after için gerekli */
 }
 
 .taskbar-icon {
-  width: 29px;                /* İkonun genişliği, isteklerinize göre ayarlayın */
-  height: 29px;               /* İkonun yüksekliği */
-  object-fit: contain;        /* İkonun orantılı büyümesi/küçülmesi */
-  display: block;             /* Varsayılan inline yerine block kullanılır, ekstra boşluk oluşmasını engeller */
+  width: 29px;
+  height: 29px;
+  object-fit: contain;
+  display: block;
+  border-radius: 5px;
 }
 
+/* Alt mavi çizgi tüm simgeler için */
+.taskbar-item::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 1px;
+  right: 1px;
+  height: 2px;
+  background-color: #1767a8; /* Mavi çizgi */
+  border-radius: 2px;
+  
+}
+
+/* Aktif olan için daha belirgin görünüm */
 .taskbar-item.active {
   background: #616060;
 }
 
-.taskbar-item:hover {
-  background: #616060;
+.taskbar-item.active::after {
+  opacity: 1; /* Aktif olan çizgiyi tam göster */
 }
 
 .clock {

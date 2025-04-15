@@ -607,6 +607,25 @@ function filterUygulamalar(category) {
   });
 }
 
+function simulateClose() {
+  // Önce tüm içerik yavaşça kaybolsun diye geçiş ekleyelim:
+  document.body.style.transition = 'background-color 0.5s ease, opacity 0.5s ease';
+  
+  // Arka planı siyaha çekelim:
+  document.body.style.backgroundColor = 'black';
+  
+  // Tüm mevcut içeriğin görünürlüğünü azaltalım (varsa "main-content" gibi bir kapsayıcı kullanabilirsiniz):
+  // Eğer tüm body içeriğini kaldırmak istiyorsanız aşağıdaki satırı kullanabilirsiniz:
+  document.body.style.opacity = '0';
+  
+  // 0.5 saniye bekledikten sonra yeni içerik ekleyelim:
+  setTimeout(() => {
+    // Body içeriğini tamamen silip mesaj ekleyelim:
+    document.body.innerHTML = '<div style="color: white; font-size: 2em; text-align: center; margin-top: 20%;">Sistem Kapatıldı.</div>';
+    // Opacity tekrar normal olsun:
+    document.body.style.opacity = '1';
+  }, 500);
+}
 function showNotification(message, duration = 5000) {
   const container = document.getElementById('notification-container');
 
