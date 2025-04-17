@@ -174,7 +174,20 @@ body {
   margin-left: 5px;
   padding: 0px 2px;
   border: none;
+  width: 24px;         /* Daire çapı */
+  height: 24px;        /* Daire çapı */
+  border-radius: 50%; 
 }
+
+.window-header .close{
+  background: #007acc;      /* istediğin mavi ton */
+  color: #ffffff;
+}
+
+.window-header .close:hover {
+  background: #005a9e;
+}
+
 
 .window-header button:hover {
   background: #525252;
