@@ -120,6 +120,7 @@ class WindowManager {
     this.windows.push(win);
     // customId'yi addTaskbarItem'a gönderiyoruz
     this.addTaskbarItem(id, title, customId);
+    this.bringToFront(id); 
   
     // Draggable, resizable ve buton eventleri
     this.makeDraggable(win);
@@ -145,9 +146,19 @@ class WindowManager {
   bringToFront(id) {
     const win = document.getElementById(id);
     if (!win) return;
+    
+    // Tüm pencerelerden active class'ını kaldır
+    this.windows.forEach(w => w.classList.remove('active'));
+    
+    // Mevcut pencereye active class'ını ekle
+    win.classList.add('active');
+    
+    // Z-index işlemleri
     this.zIndex++;
     if (this.zIndex > 10000) this.resetZIndex();
     win.style.zIndex = this.zIndex;
+    
+    // Taskbar aktif durumu
     this.taskbarItems.forEach(item => item.classList.remove('active'));
     this.taskbarItems.get(id).classList.add('active');
   }
@@ -160,6 +171,7 @@ class WindowManager {
   closeWindow(id) {
     const win = document.getElementById(id);
     if (win) {
+      win.classList.remove('active'); // ← Bu satırı ekle
       win.remove();
       this.windows = this.windows.filter(w => w.id !== id);
       const item = this.taskbarItems.get(id);
@@ -171,6 +183,7 @@ class WindowManager {
   minimizeWindow(id) {
     const win = document.getElementById(id);
     if (win) {
+      win.classList.remove('active'); // ← Bu satırı ekle
       win.style.display = 'none';
       this.taskbarItems.get(id).classList.remove('active');
     }
@@ -328,6 +341,13 @@ class WindowManager {
   makeDraggable(win) {
     const header = win.querySelector('.window-header');
     let offsetX, offsetY;
+  
+    // Pencereye tıklandığında aktif yap
+    win.addEventListener('mousedown', () => {
+      this.bringToFront(win.id);
+    });
+  
+    // Sürükleme işlemi için mevcut kod
     const onMouseMove = (e) => {
       win.style.left = `${e.clientX - offsetX}px`;
       win.style.top = `${e.clientY - offsetY}px`;
@@ -590,14 +610,12 @@ const appItems = document.querySelectorAll('.app-item');
 
 categoryItems.forEach(item => {
   item.addEventListener('click', () => {
-    // Tüm category-item'lardan 'active' class'ını kaldır
-    categoryItems.forEach(ci => ci.classList.remove('active'));
-    // Seçilene ekle
-    item.classList.add('active');
-
-    const selectedCategory = item.getAttribute('data-category');
-    // Uygulamaları filtrele
-    filterUygulamalar(selectedCategory);
+    const win = document.getElementById(id);
+    if (win.style.display === 'none') {
+      this.restoreWindow(id);
+    } else {
+      this.bringToFront(id); // Her tıklamada pencereyi öne getir
+    }
   });
 });
 
@@ -616,7 +634,6 @@ function filterUygulamalar(category) {
   });
 }
 
-// Logout butonunu düzelt ve event ekle
 document.getElementById('logout-button').addEventListener('click', triggerLogout);
 
 async function triggerLogout() {
@@ -672,6 +689,7 @@ function sleep(ms) {
 function closeAllWindows() {
   document.getElementById('windows').innerHTML = '';
 }
+
 
 function showNotification(message, duration = 5000) {
   const container = document.getElementById('notification-container');

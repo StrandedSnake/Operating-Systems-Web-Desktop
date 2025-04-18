@@ -185,12 +185,17 @@ body {
 }
 
 .window-header .close:hover {
-  background: #005a9e;
+  background: #5a7e99;
 }
 
+/* Aktif OLMAYAN pencerelerde kapatma butonu */
+.window:not(.active) .window-header .close {
+  background: #616060 !important;
+}
 
-.window-header button:hover {
-  background: #525252;
+/* Aktif pencerede mavi kalsın */
+.window.active .window-header .close {
+  background: #007acc !important;
 }
 
 .window-content {
@@ -525,7 +530,6 @@ body {
   from { opacity: 1; }
   to { opacity: 0; }
 }
-
 #poweroff-screen {
   position: fixed;
   top: 0; left: 0;
