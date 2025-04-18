@@ -635,51 +635,54 @@ function simulateClose() {
     document.body.style.opacity = '1';
   }, 500);
 }
-function showNotification(message, duration = 5000, soundSrc = null) {
+
+
+function showNotification(message, duration = 5000) {
   const container = document.getElementById('notification-container');
 
-  const isDuplicate = Array.from(container.children).some(
-    (notification) => notification.textContent === message
-  );
+ 
+  const isDuplicate = Array.from(container.children)
+    .some(n => n.textContent === message);
+  if (isDuplicate) return false;
 
+ 
   const notification = document.createElement('div');
   notification.className = 'notification';
   notification.textContent = message;
   container.appendChild(notification);
 
-  // Bildirim eklendiğinde, ses dosyası belirtildiyse oynat
-  if (!isDuplicate && soundSrc) {
-    playNotificationSound(soundSrc);
-  }
-
-  // Bildirim kendi süresi dolduğunda kapatılıyor
+ 
   setTimeout(() => {
     notification.style.animation = 'fadeOut 0.3s forwards';
     notification.addEventListener('animationend', () => notification.remove());
   }, duration);
+
+  return true;  
 }
 
+
 function playNotificationSound(soundSrc) {
-  const audio = new Audio(soundSrc); 
+  const audio = new Audio(soundSrc);
   audio.play();
 }
 
-// Farklı butonlar için farklı bildirim mesajları ve ses dosyaları
 document.getElementById('login-button').addEventListener('click', () => {
-  showNotification(
-    'Verdiğimiz rahatsızlıktan dolayı özür dileriz, en yakın zamanda daha iyi bir hizmet vereceğiz.',
-    5000,
-    'sounds/jesse.mp3'
-  );
+  playNotificationSound('sounds/login.mp3');
 });
 
-document.getElementById('start-button').addEventListener('click', () => {
-  showNotification(
-    'Mardin belediyesi dehşet saçtı! Başlangıç menüsünü bozdular -rep amq.',
-    5000,
-    'sounds/hd_-stardust-crusaders-road-roller-damp3.mp3'
-  );
+document.getElementById('logout-button').addEventListener('click', () => {
+  playNotificationSound('sounds/logout.mp3');
 });
+
+
+document.getElementById('start-button').addEventListener('click', () => {
+  const message = 'Mardin belediyesi dehşet saçtı! Başlangıç menüsünü bozdular -rep amq.';
+  const didAdd = showNotification(message, 5000);
+  if (didAdd) {
+    playNotificationSound('sounds/notification.mp3');
+  }
+});
+
 
 
 

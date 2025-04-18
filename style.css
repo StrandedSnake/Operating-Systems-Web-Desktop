@@ -2,7 +2,7 @@
 body {
   margin: 0;
   height: 100vh;
-  background: url("alena-aenami-endless-1k.jpg") center/cover no-repeat;
+  background: url("jpg/philip-oroni-efqRsqQdyTg-unsplash.jpg") center/cover no-repeat;
   font-family: "Ubuntu Mono", monospace;
   overflow: hidden;
 }
@@ -399,7 +399,7 @@ body {
 }
 
 .start-menu-search input {
-  width: 117%;
+  width: 100%;
   padding: 2px;
   background-color: #444;
   border: 1px solid #666;
@@ -408,17 +408,6 @@ body {
   font-family: "Ubuntu Mono", monospace;
 }
 
-.start-menu-close img {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  filter: drop-shadow(0 0 3px #000);
-  transition: transform 0.2s;
-}
-
-.start-menu-close img:hover {
-  transform: scale(1.1);
-}
 
 /* Alt Kısım: Kategoriler ve Uygulamalar */
 .start-menu-bottom {
