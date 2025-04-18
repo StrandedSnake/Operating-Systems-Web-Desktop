@@ -187,7 +187,9 @@ body {
 .window-header .close:hover {
   background: #5a7e99;
 }
-
+.window-header button:hover {
+  background: #525252;
+}
 /* Aktif OLMAYAN pencerelerde kapatma butonu */
 .window:not(.active) .window-header .close {
   background: #616060 !important;
