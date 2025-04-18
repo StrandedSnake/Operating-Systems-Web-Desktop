@@ -616,26 +616,62 @@ function filterUygulamalar(category) {
   });
 }
 
-function simulateClose() {
-  // Önce tüm içerik yavaşça kaybolsun diye geçiş ekleyelim:
-  document.body.style.transition = 'background-color 0.5s ease, opacity 0.5s ease';
+// Logout butonunu düzelt ve event ekle
+document.getElementById('logout-button').addEventListener('click', triggerLogout);
+
+async function triggerLogout() {
+  // Tüm pencereleri ve elementleri kapat
+  closeAllWindows();
+  document.querySelector('.desktop').style.display = 'none';
+  document.querySelector('.taskbar').style.display = 'none';
+  document.getElementById('start-menu').classList.add('hidden');
+
+  // Power-off ekranını göster
+  const powerOffScreen = document.getElementById('poweroff-screen');
+  const consoleElement = document.getElementById('console');
+  const cursorElement = document.getElementById('cursor');
+  powerOffScreen.style.display = 'block';
+
+  // Animasyon
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString('tr-TR').replace(/\./g, '/'); // 18.04.2025 -> 18/04/2025
+  const timeNow = now.toLocaleTimeString('tr-TR', { 
+    hour: '2-digit', 
+    minute: '2-digit'
+  });
+
+  const lines = [
+    `Broadcast message from Stranded@Snake (${formattedDate} ${timeNow} EEST):`,
+    '',
+    'The system will power off now!'
+  ];
+
+  consoleElement.textContent = '';
+  cursorElement.style.display = 'inline-block';
+  await sleep(1500);
   
-  // Arka planı siyaha çekelim:
-  document.body.style.backgroundColor = 'black';
+  consoleElement.textContent = lines.join('\n') + '\n';
+  await sleep(2500);
+
+  consoleElement.textContent = '';
+  cursorElement.style.display = 'inline-block';
+  await sleep(1500);
   
-  // Tüm mevcut içeriğin görünürlüğünü azaltalım (varsa "main-content" gibi bir kapsayıcı kullanabilirsiniz):
-  // Eğer tüm body içeriğini kaldırmak istiyorsanız aşağıdaki satırı kullanabilirsiniz:
-  document.body.style.opacity = '0';
-  
-  // 0.5 saniye bekledikten sonra yeni içerik ekleyelim:
-  setTimeout(() => {
-    // Body içeriğini tamamen silip mesaj ekleyelim:
-    document.body.innerHTML = '<div style="color: white; font-size: 2em; text-align: center; margin-top: 20%;">Sistem Kapatıldı.</div>';
-    // Opacity tekrar normal olsun:
-    document.body.style.opacity = '1';
-  }, 500);
+  consoleElement.textContent = '';
+  cursorElement.style.display = 'none';
+  await sleep(4500);
+
+  location.reload(); // Sayfayı yeniden yükle
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Diğer fonksiyonlara bu satırı ekle:
+function closeAllWindows() {
+  document.getElementById('windows').innerHTML = '';
+}
 
 function showNotification(message, duration = 5000) {
   const container = document.getElementById('notification-container');
