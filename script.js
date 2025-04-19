@@ -603,19 +603,25 @@ function openWindow(id, filePath) {
 }
 
 
-// Kategori öğelerine tıklandığında filterUygulamalar(category) fonksiyonunu çağırıyoruz.
-// category = "internet", "office", "all" vb.
+// Başlat menüsü kategori filtreleme
 const categoryItems = document.querySelectorAll('.category-item');
-const appItems = document.querySelectorAll('.app-item');
+const appItems       = document.querySelectorAll('.app-item');
 
-categoryItems.forEach(item => {
-  item.addEventListener('click', () => {
-    const win = document.getElementById(id);
-    if (win.style.display === 'none') {
-      this.restoreWindow(id);
-    } else {
-      this.bringToFront(id); // Her tıklamada pencereyi öne getir
-    }
+categoryItems.forEach(cat => {
+  cat.addEventListener('click', () => {
+    // 1) Aktif durumu güncelle
+    categoryItems.forEach(c => c.classList.remove('active'));
+    cat.classList.add('active');
+
+    const category = cat.dataset.category.toLowerCase();
+    // 2) Uygulamaları filtrele
+    appItems.forEach(app => {
+      if (category === 'all') {
+        app.style.display = 'flex';
+      } else {
+        app.style.display = app.classList.contains(category) ? 'flex' : 'none';
+      }
+    });
   });
 });
 
@@ -637,55 +643,86 @@ function filterUygulamalar(category) {
 document.getElementById('logout-button').addEventListener('click', triggerLogout);
 
 async function triggerLogout() {
-  // Tüm pencereleri ve elementleri kapat
-  closeAllWindows();
-  document.querySelector('.desktop').style.display = 'none';
-  document.querySelector('.taskbar').style.display = 'none';
-  document.getElementById('start-menu').classList.add('hidden');
+  try {
+    // 1. Tüm etkileşimleri devre dışı bırak
+    document.body.style.pointerEvents = 'none';
 
-  // Power-off ekranını göster
-  const powerOffScreen = document.getElementById('poweroff-screen');
-  const consoleElement = document.getElementById('console');
-  const cursorElement = document.getElementById('cursor');
-  powerOffScreen.style.display = 'block';
+    // 2. Start Menu'yu kapat
+    const startMenu = document.getElementById('start-menu');
+    startMenu.classList.add('hidden');
 
-  // Animasyon
-  const now = new Date();
-  const formattedDate = now.toLocaleDateString('tr-TR').replace(/\./g, '/'); // 18.04.2025 -> 18/04/2025
-  const timeNow = now.toLocaleTimeString('tr-TR', { 
-    hour: '2-digit', 
-    minute: '2-digit'
-  });
+    // 3. Taskbar'ı animasyonla kapat
+    const taskbar = document.querySelector('.taskbar');
+    taskbar.style.opacity = '0';
+    taskbar.style.transform = 'translateY(100%)';
 
-  const lines = [
-    `Broadcast message from Stranded@Snake (${formattedDate} ${timeNow} EEST):`,
-    '',
-    'The system will power off now!'
-  ];
+    // 4. Masaüstü elementlerini kaldır
+    const desktop = document.querySelector('.desktop');
+    desktop.style.transition = 'opacity 0.8s ease';
+    desktop.style.opacity = '0';
 
-  consoleElement.textContent = '';
-  cursorElement.style.display = 'inline-block';
-  await sleep(1500);
-  
-  consoleElement.textContent = lines.join('\n') + '\n';
-  await sleep(2500);
+    // 5. Pencereleri kapat
+    document.querySelectorAll('.window').forEach(win => {
+      win.style.transition = 'all 0.6s ease';
+      win.style.transform = 'translateY(20px) rotateZ(2deg)';
+      win.style.opacity = '0';
+    });
 
-  consoleElement.textContent = '';
-  cursorElement.style.display = 'inline-block';
-  await sleep(1500);
-  
-  consoleElement.textContent = '';
-  cursorElement.style.display = 'none';
-  await sleep(4500);
+    await sleep(1000);
+    
+    // Tüm pencereleri ve elementleri kapat
+    closeAllWindows();
+    document.querySelector('.desktop').style.display = 'none';
+    document.querySelector('.taskbar').style.display = 'none';
+    document.getElementById('start-menu').classList.add('hidden');
 
-  location.reload(); // Sayfayı yeniden yükle
+    // Power-off ekranını göster
+    const powerOffScreen = document.getElementById('poweroff-screen');
+    const consoleElement = document.getElementById('console');
+    const cursorElement = document.getElementById('cursor');
+    powerOffScreen.style.display = 'block';
+
+    // Animasyon
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('tr-TR').replace(/\./g, '/');
+    const timeNow = now.toLocaleTimeString('tr-TR', { 
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+
+    const lines = [
+      `Broadcast message from Stranded@Snake (${formattedDate} ${timeNow} EEST):`,
+      '',
+      'The system will power off now!'
+    ];
+
+    consoleElement.textContent = '';
+    cursorElement.style.display = 'inline-block';
+    await sleep(1500);
+    
+    consoleElement.textContent = lines.join('\n') + '\n';
+    cursorElement.style.display = 'none'; // İlk yazımdan sonra cursor'ı gizle
+    await sleep(2500);
+
+    consoleElement.textContent = '';
+    cursorElement.style.display = 'inline-block';
+    await sleep(1500);
+    
+    consoleElement.textContent = '';
+    cursorElement.style.display = 'none';
+    await sleep(4500);
+
+    location.reload();
+  } catch (error) {
+    console.error('Logout işlemi sırasında hata oluştu:', error);
+    location.reload(); // Hata durumunda da sayfayı yenile
+  }
 }
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Diğer fonksiyonlara bu satırı ekle:
 function closeAllWindows() {
   document.getElementById('windows').innerHTML = '';
 }
@@ -736,7 +773,6 @@ document.getElementById('start-button').addEventListener('click', () => {
     playNotificationSound('sounds/notification.mp3');
   }
 });
-
 
 
 
