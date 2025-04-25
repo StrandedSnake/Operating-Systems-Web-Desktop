@@ -557,6 +557,16 @@ function simulateTyping(element, text, delay = 5000) {
   }, delay);
 }
 
+
+// Find all app-item elements in the start menu and add click handler to hide menu
+document.querySelectorAll('.start-menu .app-item').forEach(appItem => {
+  appItem.addEventListener('click', () => {
+    // Hide the start menu after clicking an app
+    const startMenu = document.getElementById('start-menu');
+    startMenu.classList.add('hidden');
+  });
+});
+
 function openWindow(id, filePath) {
   // Network şakası: Sadece IP alımı
   if (id === 'Network') {
@@ -764,6 +774,7 @@ document.getElementById('login-button').addEventListener('click', () => {
 document.getElementById('logout-button').addEventListener('click', () => {
   playNotificationSound('sounds/logout.mp3');
 });
+
 
 
 document.getElementById('start-button').addEventListener('click', () => {
