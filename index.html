@@ -154,8 +154,8 @@
         <div class="category-item tooltip-container" 
              data-tooltip-title="Office" 
              data-tooltip-desc="Ofis Programları"
-             data-category="Sound & Video">
-          <img src="icons/video.png" alt="Office" />
+             data-category="sound">
+          <img src="icons/video.png" alt="Sound" />
           Sound & Video
         </div>
         <div class="category-item tooltip-container" 
@@ -176,33 +176,40 @@
       </div>
       
       <div class="start-menu-apps" id="start-menu-apps">
+        <div class="app-item internet tooltip-container"    
+             onclick="openWindow('cv','cv.pdf')">
+          <img src="icons/cv.png" alt="cv" />
+          CV Viewer
+        </div>
         <div class="app-item internet tooltip-container" 
-             data-tooltip-title="Firefox" 
-             data-tooltip-desc="Web Tarayıcı"
              onclick="openWindow('github','github.html')">
-          <img src="icons/firefox.jpg" alt="Firefox" />
-          Firefox Web Browser
+          <img src="icons/github-icon.png" alt="github" />
+          Github
+        </div>
+        <div class="app-item internet tooltip-container"    
+             onclick="openWindow('linkedin','linkedin.html')">
+          <img src="icons/linkedin-icon.png" alt="linkedin" />
+          Linkedin
         </div>
         <div class="app-item internet tooltip-container" 
-             data-tooltip-title="Mail" 
-             data-tooltip-desc="E-posta Uygulaması"
-             onclick="openWindow('mail','mail.html')">
-          <img src="icons/thunderbird.jpg" alt="Thunderbird" />
-          Thunderbird Mail
+             onclick="openWindow('blackjack','blackjack.html')">
+          <img src="icons/blackjack.png" alt="blackjack" />
+          Blackjack
         </div>
-        <div class="app-item office tooltip-container" 
-             data-tooltip-title="Writer" 
-             data-tooltip-desc="Metin İşlemci"
-             onclick="openWindow('libreoffice','libreoffice.html')">
-          <img src="icons/office.jpg" alt="Office" />
-          LibreOffice Writer
+        <div class="app-item sound tooltip-container" 
+             onclick="openWindow('musicplayer','musicplayer/music.html')">
+          <img src="icons/MetalGearSolidPhantomPain_IntrudeTape-Photoroom.png" alt="music" />
+          Music Player
         </div>
         <div class="app-item preferences tooltip-container" 
-             data-tooltip-title="Ayarlar" 
-             data-tooltip-desc="Sistem Ayarları"
-             onclick="openWindow('settings','settings.html')">
-          <img src="icons/preferences.jpg" alt="Settings" />
-          Settings
+        onclick="openWindow('Network','')">
+          <img src="icons/wifi-signal.png" alt="Network" />
+          Network
+        </div>
+        <div class="app-item places tooltip-container" 
+        onclick="openWindow('Trash', 'Trash.html')">
+          <img src="icons/Trash.png" alt="Trash" />
+          Trash
         </div>
         <!-- Daha fazla uygulama -->
       </div>
