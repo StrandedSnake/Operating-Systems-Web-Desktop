@@ -128,14 +128,17 @@ class WindowManager {
     win.querySelector('.minimize').addEventListener('click', (e) => {
       e.stopPropagation();
       this.minimizeWindow(id);
+      playNotificationSound('sounds/minimize.mp3');
     });
     win.querySelector('.close').addEventListener('click', (e) => {
       e.stopPropagation();
       this.closeWindow(id);
+      playNotificationSound('sounds/volume.mp3');
     });
     win.querySelector('.fullscreen').addEventListener('click', (e) => {
       e.stopPropagation();
       this.toggleFullscreen(id);
+      playNotificationSound('sounds/maximize.mp3');
     });
   
     return id;
@@ -774,8 +777,6 @@ document.getElementById('login-button').addEventListener('click', () => {
 document.getElementById('logout-button').addEventListener('click', () => {
   playNotificationSound('sounds/logout.mp3');
 });
-
-
 
 document.getElementById('start-button').addEventListener('click', () => {
   const message = 'Mardin belediyesi dehşet saçtı! Başlangıç menüsünü bozdular -rep amq.';
