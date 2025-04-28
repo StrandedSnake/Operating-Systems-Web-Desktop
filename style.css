@@ -434,6 +434,52 @@ body {
   gap: 5px;
 }
 
+/*en son eklediğim kod*/
+/* Start Menu Scroll Bar Styling */
+.start-menu-categories::-webkit-scrollbar,
+.start-menu-apps::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f2f;
+}
+
+.start-menu-categories::-webkit-scrollbar-thumb,
+.start-menu-apps::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.start-menu-categories::-webkit-scrollbar-thumb:hover,
+.start-menu-apps::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
+
+.start-menu-categories::-webkit-scrollbar-track,
+.start-menu-apps::-webkit-scrollbar-track {
+  background-color: #333;
+  border-radius: 4px;
+}
+
+/* Tüm kaydırma çubukları için genel stil */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #333;
+  border-radius: 4px;
+}
+/*buraya kadar*/
+
 .category-item {
   display: flex;
   align-items: center;
