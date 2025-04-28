@@ -61,6 +61,13 @@
           <div class="icon-label text-center">Blackjack</div>
         </div>
 
+        <div class="icon m-2" ondblclick="openWindow('minefield', 'minefield/index.html')">
+          <div class="icon-image">
+            <img src="icons/bomb icon.png" class="img-fluid" alt="minefield">
+          </div>
+          <div class="icon-label text-center">Minefield</div>
+        </div>
+
         <div class="icon m-2" ondblclick="openWindow('musicplayer','musicplayer/music.html')">
           <div class="icon-image">
             <img src="icons/MetalGearSolidPhantomPain_IntrudeTape-Photoroom.png" class="img-fluid" alt="LinkedIn">
@@ -186,6 +193,11 @@
           <img src="icons/github-icon.png" alt="github" />
           Github
         </div>
+        <div class="app-item internet tooltip-container" 
+             onclick="openWindow('minefield','minefield/index.html')">
+          <img src="icons/bomb icon.png" alt="minefield" />
+          Minefield Game
+        </div>
         <div class="app-item internet tooltip-container"    
              onclick="openWindow('linkedin','linkedin.html')">
           <img src="icons/linkedin-icon.png" alt="linkedin" />
@@ -217,37 +229,6 @@
   </div>
 </div>
 
-<!-- 
- <div id="start-menu" class="start-menu hidden">
-    <div class="start-menu-item" onclick="openWindow('cv', 'cv.pdf')">
-      CV Viewer
-    </div>
-    <div class="start-menu-item" onclick="openWindow('github', 'github.html')">
-      GitHub
-    </div>
-    <div class="start-menu-item" onclick="openWindow('linkedin', 'linkedin.html')">
-      LinkedIn
-    </div>
-    <div class="start-menu-item" onclick="openWindow('blackjack', 'blackjack-master/blackjack.html')">
-      Blackjack
-    </div>
-    <div class="start-menu-item" onclick="openWindow('musicplayer', 'musicplayer/music.html')">
-      Music Player
-    </div>
-    <div class="start-menu-item" onclick="openWindow('Network',)">
-      Network
-    </div>
-    <div class="start-menu-item" onclick="openWindow('Trash', 'Trash.html')">
-      Trash
-    </div>
-    <div class="start-menu-item" onclick="openWindow('calculator', 'calculator.html')">
-      Calculator
-    </div>
-    <div class="start-menu-item" onclick="location.reload();">
-      Restart
-    </div>
-  </div> 
-  -->
 
   <div id="poweroff-screen" style="display: none;">
     <pre id="console"></pre><span id="cursor">_</span>

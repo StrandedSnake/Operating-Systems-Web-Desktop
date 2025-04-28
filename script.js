@@ -39,7 +39,8 @@ const iconMap = {
   blackjack: 'icons/blackjack.png',
   musicplayer: 'icons/MetalGearSolidPhantomPain_IntrudeTape-Photoroom.png',
   Trash: 'icons/Trash.png',
-  calculator: 'icons/calculator.png'
+  calculator: 'icons/calculator.png',
+  minefield: 'icons/bomb icon.png'
 };
 
 class WindowManager {
@@ -403,6 +404,7 @@ class WindowManager {
       case 'github':
       case 'linkedin':
       case 'blackjack':
+      case 'minefield':
       case 'calculator':
       case 'musicplayer': return this.getIframeContent(filePath);
       case 'Trash': return this.getTrashContent();
@@ -604,6 +606,7 @@ function openWindow(id, filePath) {
     musicplayer: 'Music Player',
     Trash: 'Trash',
     calculator: 'calculator',
+    minefield: 'minefield',
   };
   const title = titleMap[id] || 'Yeni Pencere';
   const content = desktop.getContent(id, filePath);

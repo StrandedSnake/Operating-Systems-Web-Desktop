@@ -1,0 +1,295 @@
+/* Temel değişkenler ve renk şeması */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.125);
+  --cell-bg: #a0a0a0;
+  --cell-border: #bbb;
+  --cell-hover: #eee;
+  --revealed-bg: #f0f0f0;
+  --mine-bg: #ff6b6b;
+  --flagged-bg: #88c0d0;
+  --num-1-color: blue;
+  --num-2-color: green;
+  --num-3-color: red;
+  --num-4-color: darkblue;
+  --num-5-color: brown;
+  --num-6-color: teal;
+  --num-7-color: black;
+  --num-8-color: gray;
+}
+
+/* Karanlık mod değişkenleri */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --card-border: rgba(255, 255, 255, 0.125);
+  --cell-bg: #817f7f;
+  --cell-border: #666;
+  --cell-hover: #555;
+  --revealed-bg: #333;
+  --mine-bg: #ff5252;
+  --flagged-bg: #4fc3f7;
+  --num-1-color: #42a5f5;
+  --num-2-color: #66bb6a;
+  --num-3-color: #ff7043;
+  --num-4-color: #5c6bc0;
+  --num-5-color: #ba68c8;
+  --num-6-color: #4db6ac;
+  --num-7-color: #f5f5f5;
+  --num-8-color: #aaaaaa;
+}
+
+body {
+  padding: 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.game-title {
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.settings-card {
+  margin-bottom: 20px;
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+.card-body {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  font-size: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.cell:hover {
+  background-color: var(--cell-hover);
+}
+
+.revealed {
+  background-color: var(--revealed-bg);
+}
+
+.mine {
+  background-color: var(--mine-bg);
+}
+
+.flagged {
+  background-color: var(--flagged-bg);
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.num-1 { color: var(--num-1-color); }
+.num-2 { color: var(--num-2-color); }
+.num-3 { color: var(--num-3-color); }
+.num-4 { color: var(--num-4-color); }
+.num-5 { color: var(--num-5-color); }
+.num-6 { color: var(--num-6-color); }
+.num-7 { color: var(--num-7-color); }
+.num-8 { color: var(--num-8-color); }
+
+/* Dalga efekti için */
+.ripple {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .ripple {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(15);
+    opacity: 0;
+  }
+}
+
+/* Dalga efekti gecikmesi için */
+.delayed-reveal {
+  opacity: 0;
+  animation: fade-in 0.3s forwards;
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tema değiştirici */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.theme-switch {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 34px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.theme-switch-wrapper .theme-label {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Dark mode için form elemanları */
+[data-theme="dark"] input.form-control,
+[data-theme="dark"] .btn-outline-secondary {
+  background-color: #333;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+[data-theme="dark"] input.form-control:focus {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .form-check-label {
+  color: var(--text-color);
+}
+
+.digital-display {
+  background-color: #000;
+  color: rgb(255, 255, 255);
+  font-family: 'Digital-7', 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0 5px;
+  width: 80px;
+  text-align: center;
+  display: inline-block;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+  border: 1px solid #444;
+}
+
+/* Dijital gösterge konteynerı */
+.digital-display-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #333;
+  border-radius: 8px;
+  border: 2px solid #555;
+}
+
+.digital-display-label {
+  color: white;
+  font-size: 0.9rem;
+  margin-right: 5px;
+}
+
+.digital-info-group {
+  display: flex;
+  align-items: center;
+}
+
+/* Karanlık mod için dijital gösterge uyumlu kalır */
+[data-theme="dark"] .digital-display {
+  background-color: #000;
+  color: rgb(255, 255, 255);
+  border: 1px solid #555;
+}
+
+/* Dijital font için klavye tasarımı (dijital saat benzeri) */
+@font-face {
+  font-family: 'Digital-7';
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/digital-7-mono/1.0.0/digital-7-mono.ttf') format('truetype');
+}
