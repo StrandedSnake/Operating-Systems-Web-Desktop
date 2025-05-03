@@ -1,4 +1,17 @@
 
+/* Özel cursor tüm sayfa için */
+body {
+  cursor: url('cursors/cursor.png'), auto;
+}
+
+/* Tüm tıklanabilir elemanlar için özel cursor */
+a, button, .icon, .start-button, .taskbar-item, .app-item, 
+.category-item, .file-item, .toggle-button, .login-btn,
+.window-header button, input[type="text"], input[type="button"], 
+.login-lang, #start-button {
+  cursor: url('cursors/cursor.png'), pointer !important;
+}
+
 body {
   margin: 0;
   height: 100vh;
