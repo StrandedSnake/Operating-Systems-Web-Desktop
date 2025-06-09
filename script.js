@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const iconMap = {
   cv: 'icons/cv.png',
   github: 'icons/github-icon.png',
+  powerpoint: 'icons/powerpoint.png',
   linkedin: 'icons/linkedin-icon.png',
   blackjack: 'icons/blackjack.png',
   musicplayer: 'icons/MetalGearSolidPhantomPain_IntrudeTape-Photoroom.png',
@@ -407,11 +408,43 @@ class WindowManager {
       case 'minefield':
       case 'calculator':
       case 'musicplayer': return this.getIframeContent(filePath);
+      case 'presentation': return this.getPPTXContent(filePath);
       case 'Trash': return this.getTrashContent();
       default: return '<div>Dosya bulunamadı</div>';
     }
   }
 
+  getPPTXContent(path) {
+  return `
+    <div id="pptx-container" style="width: 100%; height: 100%; background: #f0f0f0;">
+      <div style="text-align: center; padding: 20px;">
+        <h3>PowerPoint Sunumu Yükleniyor...</h3>
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pptxjs/1.1.0/pptx.min.js"></script>
+    <script>
+      // PPTXjs ile dosyayı yükle
+      fetch('${path}')
+        .then(response => response.arrayBuffer())
+        .then(data => {
+          const container = document.getElementById('pptx-container');
+          
+          // PPTXjs kullanarak görüntüle
+          $("#pptx-container").pptxToHtml({
+            pptxFileUrl: '${path}',
+            slidesScale: '50%',
+            slideMode: false,
+            keyBoardShortCut: false
+          });
+        })
+        .catch(error => {
+          document.getElementById('pptx-container').innerHTML = 
+            '<div style="color: red; text-align: center; padding: 20px;">PPTX dosyası yüklenirken hata oluştu.</div>';
+        });
+    </script>
+  `;
+}
   getPDFContent(path) {
     return `<embed src="${path}" type="application/pdf" width="100%" height="100%">`;
   }
@@ -607,6 +640,7 @@ function openWindow(id, filePath) {
     Trash: 'Trash',
     calculator: 'calculator',
     minefield: 'minefield',
+    presentation: 'PowerPoint Sunumu'
   };
   const title = titleMap[id] || 'Yeni Pencere';
   const content = desktop.getContent(id, filePath);
